@@ -2,7 +2,7 @@ CREATE DATABASE Bus_Station;
 
 USE Bus_Station;
 
--- 3.
+-- 3. 
 -- Bus Table
 CREATE TABLE Bus (
     Bus_No VARCHAR(10) PRIMARY KEY,
@@ -12,6 +12,7 @@ CREATE TABLE Bus (
 );
 
 DESC Bus;
+
 
 -- Reservation Table
 CREATE TABLE Reservation (
@@ -93,7 +94,6 @@ INSERT INTO Cancellation (PNR_No, Journey_date, Seat_No, Contact_No)
 VALUES
 (1003, 20250822, '8', 9988776655);
 
-
 SELECT * FROM Bus;
 SELECT * FROM Reservation;
 SELECT * FROM Ticket;
@@ -120,14 +120,14 @@ CHANGE Couch_Type Coach_Type VARCHAR(20);
 
 DESC Bus;
 
--- 7. 
-
+-- 7.
 ALTER TABLE Bus
 MODIFY Bus_No VARCHAR(15),
 MODIFY Source VARCHAR(50),
 MODIFY Destination VARCHAR(50),
 MODIFY Coach_Type VARCHAR(30);
 
+DESC Bus;
 
 ALTER TABLE Reservation
 MODIFY Address VARCHAR(100),
@@ -136,6 +136,7 @@ MODIFY Contact_No BIGINT;
 ALTER TABLE Reservation
 MODIFY Bus_No VARCHAR(15);
 
+DESC Reservation;
 
 ALTER TABLE Ticket
 MODIFY Sex VARCHAR(10),
@@ -143,17 +144,18 @@ MODIFY Source VARCHAR(50),
 MODIFY Destination VARCHAR(50),
 MODIFY Dep_Time VARCHAR(20);
 
+DESC Ticket;
+
 
 ALTER TABLE Passenger
 MODIFY Name VARCHAR(30),
 MODIFY Sex VARCHAR(10);
 
+DESC Passenger;
+
 
 ALTER TABLE Cancellation
 MODIFY Seat_No VARCHAR(20);
 
-DESC Bus;
-DESC Reservation;
-DESC Ticket;
-DESC Passenger;
 DESC Cancellation;
+
