@@ -99,15 +99,14 @@ SELECT * FROM Products WHERE UnitPrice > 500 ORDER BY UnitPrice;
 -- Question 10
 INSERT INTO Orders (OrderID, CustomerID, OrderQuantity)
 VALUES 
-    (1001, 101, 2),
-    (1002, 102, 1),
-    (1003, 101, 5);
+    (1004, 101, 2),
+    (1005, 102, 56),
+    (1006, 101, 52);
 
 -- Now the query:
 SELECT DISTINCT c.CustomerName, c.Email
 FROM Customers c
 JOIN Orders o ON c.CustomerID = o.CustomerID;
-
 
 -- Question 11
 -- First verify which orders will be updated
@@ -116,13 +115,15 @@ FROM Orders
 WHERE OrderQuantity > 50;
 
 -- Then perform the update using the primary key
-UPDATE Orders
-SET OrderStatus = 'Shipped'
-WHERE OrderID IN (
+UPDATE Orders o
+JOIN (
     SELECT OrderID 
     FROM Orders 
     WHERE OrderQuantity > 50
-);
+) t ON o.OrderID = t.OrderID
+SET o.OrderStatus = 'Shipped';
+
+SELECT * FROM Orders;
 
 -- Question 12
 DELETE FROM Products

@@ -2,6 +2,17 @@ CREATE DATABASE Bus_Station;
 
 USE Bus_Station;
 
+TRUNCATE TABLE xyz;
+CREATE TABLE xyz(
+xxx VARCHAR(20)
+);
+INSERT INTO xyz (xxx)
+VALUES
+('Hello');
+DESC xyz;
+SELECT * FROM xyz;
+
+
 -- 3. 
 -- Bus Table
 CREATE TABLE Bus (
@@ -159,16 +170,3 @@ MODIFY Seat_No VARCHAR(20);
 
 DESC Cancellation;
 
-
--- Viva Question (Truncate Implementation)
-
-
--- TRUNCATE TABLE xyz;
--- CREATE TABLE xyz(
--- xxx VARCHAR(20)
--- );
--- INSERT INTO xyz (xxx)
--- VALUES
--- ('Hello');
--- DESC xyz;
--- SELECT * FROM xyz;
