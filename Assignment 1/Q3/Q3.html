@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ER/EER Diagram Builder Pro</title>
+    <link rel="stylesheet" href="Q3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="light-mode">
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Header -->
+    <header class="glass">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>ER/EER Diagram Builder Pro</h1>
+                    <p>Professional Database Design Studio</p>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button id="themeToggle" class="control-btn glass">
+                    <i class="fas fa-moon"></i>
+                    <span>Theme</span>
+                </button>
+                <button id="helpBtn" class="control-btn glass">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Sidebar Toolbar -->
+        <nav class="toolbar glass">
+            <!-- Entities Section -->
+            <section class="tool-section">
+                <div class="section-header">
+                    <i class="fas fa-shapes"></i>
+                    <h3>Entities & Attributes</h3>
+                </div>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-tool="entity">
+                        <div class="tool-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <span>Entity</span>
+                    </button>
+                    <button class="tool-btn" data-tool="weak-entity">
+                        <div class="tool-icon">
+                            <i class="fas fa-cube"></i>
+                            <i class="fas fa-link weak-overlay"></i>
+                        </div>
+                        <span>Weak Entity</span>
+                    </button>
+                    <button class="tool-btn" data-tool="attribute">
+                        <div class="tool-icon">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <span>Attribute</span>
+                    </button>
+                    <button class="tool-btn" data-tool="composite">
+                        <div class="tool-icon">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <span>Composite</span>
+                    </button>
+                    <button class="tool-btn" data-tool="multivalued">
+                        <div class="tool-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <span>Multivalued</span>
+                    </button>
+                    <button class="tool-btn" data-tool="derived">
+                        <div class="tool-icon">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <span>Derived</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Relationships Section -->
+            <section class="tool-section">
+                <div class="section-header">
+                    <i class="fas fa-link"></i>
+                    <h3>Relationships</h3>
+                </div>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-tool="relationship">
+                        <div class="tool-icon">
+                            <i class="fas fa-arrows-alt-h"></i>
+                        </div>
+                        <span>Relationship</span>
+                    </button>
+                    <button class="tool-btn" data-tool="isa-relationship">
+                        <div class="tool-icon">
+                            <i class="fas fa-sitemap"></i>
+                        </div>
+                        <span>ISA Relationship</span>
+                    </button>
+                </div>
+                
+                <div class="properties-panel">
+                    <div class="property-group">
+                        <label>Cardinality:</label>
+                        <select id="cardinality" class="glass">
+                            <option value="1:1">1:1</option>
+                            <option value="1:N">1:N</option>
+                            <option value="N:1">N:1</option>
+                            <option value="M:N">M:N</option>
+                        </select>
+                    </div>
+                    <div class="property-group">
+                        <label>Participation:</label>
+                        <select id="participation" class="glass">
+                            <option value="partial">Partial</option>
+                            <option value="total">Total</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Actions Section -->
+            <section class="tool-section">
+                <div class="section-header">
+                    <i class="fas fa-tools"></i>
+                    <h3>Actions</h3>
+                </div>
+                <div class="action-grid">
+                    <button class="action-btn danger" id="clearBtn">
+                        <i class="fas fa-broom"></i>
+                        <span>Clear Canvas</span>
+                    </button>
+                    <button class="action-btn primary" id="saveBtn">
+                        <i class="fas fa-save"></i>
+                        <span>Save Diagram</span>
+                    </button>
+                    <button class="action-btn secondary" id="loadBtn">
+                        <i class="fas fa-folder-open"></i>
+                        <span>Load Diagram</span>
+                    </button>
+                    <button class="action-btn success" id="exportBtn">
+                        <i class="fas fa-download"></i>
+                        <span>Export Image</span>
+                    </button>
+                    <button class="action-btn accent" id="generateSchemaBtn">
+                        <i class="fas fa-database"></i>
+                        <span>Generate Schema</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Statistics -->
+            <section class="tool-section stats">
+                <div class="section-header">
+                    <i class="fas fa-chart-bar"></i>
+                    <h3>Statistics</h3>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="entityCount">0</span>
+                            <span class="stat-label">Entities</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="relationshipCount">0</span>
+                            <span class="stat-label">Relationships</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-value" id="connectionCount">0</span>
+                            <span class="stat-label">Connections</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </nav>
+
+        <!-- Main Workspace -->
+        <div class="workspace-container glass">
+            <div class="workspace-controls">
+                <div class="control-group">
+                    <button id="zoomIn" class="control-btn glass" title="Zoom In">
+                        <i class="fas fa-search-plus"></i>
+                    </button>
+                    <button id="zoomOut" class="control-btn glass" title="Zoom Out">
+                        <i class="fas fa-search-minus"></i>
+                    </button>
+                    <button id="resetView" class="control-btn glass" title="Reset View">
+                        <i class="fas fa-expand-arrows-alt"></i>
+                    </button>
+                    <button id="gridToggle" class="control-btn glass active" title="Toggle Grid">
+                        <i class="fas fa-th"></i>
+                    </button>
+                </div>
+                <div class="zoom-display glass">
+                    <span id="zoomLevel">100%</span>
+                </div>
+            </div>
+
+            <div class="workspace" id="workspace">
+                <div class="workspace-info" id="workspaceInfo">
+                    <div class="info-graphic">
+                        <div class="graphic-element">
+                            <i class="fas fa-mouse-pointer"></i>
+                        </div>
+                        <div class="graphic-orbits">
+                            <div class="orbit"></div>
+                            <div class="orbit"></div>
+                            <div class="orbit"></div>
+                        </div>
+                    </div>
+                    <h2>Welcome to ER Diagram Builder Pro</h2>
+                    <p>Start designing your database schema by dragging elements from the toolbar</p>
+                    
+                    <div class="info-features">
+                        <div class="feature">
+                            <i class="fas fa-magic"></i>
+                            <div>
+                                <strong>Smart Connections</strong>
+                                <span>Drag from connection points to link entities</span>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-edit"></i>
+                            <div>
+                                <strong>Double Click to Edit</strong>
+                                <span>Customize properties of any element</span>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-bolt"></i>
+                            <div>
+                                <strong>Auto Schema Generation</strong>
+                                <span>Convert ER diagrams to relational schema</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <svg class="connection-layer" id="connectionLayer"></svg>
+            </div>
+        </div>
+    </main>
+
+    <!-- Schema Panel -->
+    <aside class="schema-panel glass" id="schemaPanel">
+        <div class="schema-header">
+            <div class="schema-title">
+                <i class="fas fa-table"></i>
+                <h3>Generated Relational Schema</h3>
+            </div>
+            <div class="schema-controls">
+                <button id="copySchemaBtn" class="control-btn glass" title="Copy Schema">
+                    <i class="fas fa-copy"></i>
+                </button>
+                <button id="closeSchemaBtn" class="control-btn glass" title="Close Panel">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="schema-content" id="schemaContent">
+            <!-- Schema content will be generated here -->
+        </div>
+    </aside>
+
+    <!-- Modals -->
+    <div class="modal" id="entityModal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-cube"></i>
+                    <h3>Entity Properties</h3>
+                </div>
+                <button class="close-btn glass" id="closeEntityModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="entityName">Entity Name</label>
+                    <input type="text" id="entityName" class="glass" placeholder="e.g., Student, Course">
+                </div>
+                <div class="form-group">
+                    <label>Attributes</label>
+                    <div id="attributesList" class="attributes-list"></div>
+                    <button class="add-btn glass" id="addAttributeBtn">
+                        <i class="fas fa-plus-circle"></i>
+                        Add Attribute
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary glass" id="cancelEntityBtn">Cancel</button>
+                <button class="btn primary" id="saveEntityBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="relationshipModal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-link"></i>
+                    <h3>Relationship Properties</h3>
+                </div>
+                <button class="close-btn glass" id="closeRelationshipModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="relationshipName">Relationship Name</label>
+                    <input type="text" id="relationshipName" class="glass" placeholder="e.g., Enrolls, Teaches">
+                </div>
+                <div class="form-group">
+                    <label for="relationshipType">Relationship Type</label>
+                    <select id="relationshipType" class="glass">
+                        <option value="regular">Regular</option>
+                        <option value="identifying">Identifying</option>
+                        <option value="isa">ISA (Inheritance)</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary glass" id="cancelRelationshipBtn">Cancel</button>
+                <button class="btn primary" id="saveRelationshipBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="attributeModal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-tag"></i>
+                    <h3>Attribute Properties</h3>
+                </div>
+                <button class="close-btn glass" id="closeAttributeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="attributeName">Attribute Name</label>
+                    <input type="text" id="attributeName" class="glass" placeholder="e.g., ID, Name, Email">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="attributeType">Attribute Type</label>
+                        <select id="attributeType" class="glass">
+                            <option value="simple">Simple</option>
+                            <option value="composite">Composite</option>
+                            <option value="multivalued">Multivalued</option>
+                            <option value="derived">Derived</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataType">Data Type</label>
+                        <select id="dataType" class="glass">
+                            <option value="VARCHAR(255)">VARCHAR(255)</option>
+                            <option value="INT">INT</option>
+                            <option value="DATE">DATE</option>
+                            <option value="DECIMAL">DECIMAL</option>
+                            <option value="BOOLEAN">BOOLEAN</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="composite-group" id="compositeAttributes" style="display: none;">
+                    <label>Composite Sub-attributes</label>
+                    <div id="compositeAttributesList" class="sub-attributes-list"></div>
+                    <button class="add-btn glass" id="addCompositeAttrBtn">
+                        <i class="fas fa-plus-circle"></i>
+                        Add Sub-attribute
+                    </button>
+                </div>
+                <div class="checkbox-group">
+                    <label class="checkbox">
+                        <input type="checkbox" id="isKey">
+                        <span class="checkmark"></span>
+                        Primary Key
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" id="isNullable" checked>
+                        <span class="checkmark"></span>
+                        Nullable
+                    </label>
+                    <label class="checkbox">
+                        <input type="checkbox" id="isUnique">
+                        <span class="checkmark"></span>
+                        Unique
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary glass" id="cancelAttributeBtn">Cancel</button>
+                <button class="btn primary" id="saveAttributeBtn">Save Attribute</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="context-menu glass" id="contextMenu">
+        <div class="context-item" data-action="edit">
+            <i class="fas fa-edit"></i>
+            <span>Edit</span>
+        </div>
+        <div class="context-item" data-action="delete">
+            <i class="fas fa-trash"></i>
+            <span>Delete</span>
+        </div>
+        <div class="context-item" data-action="properties">
+            <i class="fas fa-cog"></i>
+            <span>Properties</span>
+        </div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <footer class="glass">
+        <div class="footer-content">
+            <div class="footer-info">
+                <p>ER/EER Diagram Builder Pro &copy; 2024</p>
+                <p>Professional Database Design Studio</p>
+            </div>
+            <div class="footer-links">
+                <p class="footer-fas fa-heart pulse">© 2024 NeoDBMS | Architected with 💙 by JavaPyWizard</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="Q3.js"></script>
+</body>
+</html>
