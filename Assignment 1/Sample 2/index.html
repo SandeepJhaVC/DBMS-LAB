@@ -1,0 +1,370 @@
+<!-- Q5 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relational Algebra Visualizer | Interactive Learning Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="custom-cursor"></div>
+
+    <!-- Theme Toggle -->
+    <div class="theme-toggle">
+        <button id="themeSwitch" class="theme-btn glass-card">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- Help Button -->
+    <div class="help-toggle">
+        <button id="helpBtn" class="help-btn glass-card">
+            <i class="fas fa-question"></i>
+        </button>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="glass-card header-card">
+            <div class="header-content">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <div class="logo-text">
+                        <h1 class="glow-text">Relational Algebra Visualizer</h1>
+                        <p class="subtitle">Interactive tool for learning and practicing relational algebra operations</p>
+                    </div>
+                </div>
+                <div class="header-stats">
+                    <div class="stat">
+                        <span class="stat-number" id="tableCount">3</span>
+                        <span class="stat-label">Tables</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="operationCount">0</span>
+                        <span class="stat-label">Operations</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" id="resultCount">0</span>
+                        <span class="stat-label">Results</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Grid -->
+        <div class="main-content">
+            <!-- Creation Panel -->
+            <div class="panel glass-card creation-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-plus-circle"></i> Create Relation</h2>
+                    <div class="panel-actions">
+                        <button class="icon-btn" id="clearForm" title="Clear Form">
+                            <i class="fas fa-broom"></i>
+                        </button>
+                        <button class="icon-btn" id="addSample" title="Add Sample Data">
+                            <i class="fas fa-vial"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tableName">
+                        <i class="fas fa-table"></i> Table Name
+                    </label>
+                    <input type="text" id="tableName" placeholder="e.g., Students, Courses">
+                </div>
+                
+                <div class="form-group">
+                    <label for="columns">
+                        <i class="fas fa-columns"></i> Columns (comma separated)
+                    </label>
+                    <input type="text" id="columns" placeholder="e.g., ID, Name, Grade">
+                </div>
+                
+                <div class="form-group">
+                    <label for="data">
+                        <i class="fas fa-database"></i> Data (one row per line, values comma separated)
+                    </label>
+                    <textarea id="data" rows="5" placeholder="e.g., 1, John, A&#10;2, Jane, B"></textarea>
+                </div>
+                
+                <button id="createTable" class="btn btn-primary btn-glow">
+                    <i class="fas fa-plus"></i> Create Table
+                </button>
+
+                <div class="instructions">
+                    <h4><i class="fas fa-info-circle"></i> Quick Start</h4>
+                    <ul>
+                        <li>Enter table name and comma-separated columns</li>
+                        <li>Add data with each row on a new line</li>
+                        <li>Use sample data for quick testing</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Operations Panel -->
+            <div class="panel glass-card operations-panel">
+                <div class="panel-header">
+                    <h2><i class="fas fa-cogs"></i> Apply Operations</h2>
+                    <div class="panel-actions">
+                        <button class="icon-btn" id="clearAll" title="Clear All Tables">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <button class="icon-btn" id="exportResult" title="Export Result">
+                            <i class="fas fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="selectTable">
+                        <i class="fas fa-list"></i> Select Table
+                    </label>
+                    <select id="selectTable">
+                        <option value="">-- Choose a table --</option>
+                    </select>
+                </div>
+                
+                <div class="operations-grid">
+                    <button class="op-btn" data-op="select" title="SELECT (σ) - Filter rows based on condition">
+                        <i class="fas fa-filter"></i>
+                        <span>SELECT (σ)</span>
+                    </button>
+                    <button class="op-btn" data-op="project" title="PROJECT (π) - Choose specific columns">
+                        <i class="fas fa-project-diagram"></i>
+                        <span>PROJECT (π)</span>
+                    </button>
+                    <button class="op-btn" data-op="join" title="JOIN (⨝) - Combine two tables">
+                        <i class="fas fa-link"></i>
+                        <span>JOIN (⨝)</span>
+                    </button>
+                    <button class="op-btn" data-op="union" title="UNION (∪) - Combine rows from two tables">
+                        <i class="fas fa-merge"></i>
+                        <span>UNION (∪)</span>
+                    </button>
+                    <button class="op-btn" data-op="difference" title="DIFFERENCE (-) - Find rows in first table not in second">
+                        <i class="fas fa-minus"></i>
+                        <span>DIFFERENCE (-)</span>
+                    </button>
+                    <button class="op-btn" data-op="intersect" title="INTERSECT (∩) - Find common rows">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>INTERSECT (∩)</span>
+                    </button>
+                    <button class="op-btn btn-danger" id="clearResult" title="Clear Results">
+                        <i class="fas fa-times"></i>
+                        <span>Clear</span>
+                    </button>
+                </div>
+
+                <div id="operationParams" class="operation-params">
+                    <!-- Dynamic operation parameters -->
+                </div>
+
+                <div class="instructions">
+                    <h4><i class="fas fa-graduation-cap"></i> Operation Guide</h4>
+                    <div class="op-guide">
+                        <div class="guide-item">
+                            <strong>SELECT (σ):</strong> Filter rows based on condition
+                        </div>
+                        <div class="guide-item">
+                            <strong>PROJECT (π):</strong> Select specific columns
+                        </div>
+                        <div class="guide-item">
+                            <strong>JOIN (⨝):</strong> Combine tables on matching values
+                        </div>
+                        <div class="guide-item">
+                            <strong>UNION (∪):</strong> Combine rows from tables
+                        </div>
+                        <div class="guide-item">
+                            <strong>DIFFERENCE (-):</strong> Find rows in first not in second
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tables Display -->
+        <section class="tables-section">
+            <div class="section-header">
+                <h2><i class="fas fa-database"></i> Relations</h2>
+                <div class="section-actions">
+                    <button class="btn btn-outline" id="toggleTables">
+                        <i class="fas fa-expand"></i> Toggle View
+                    </button>
+                </div>
+            </div>
+            <div class="tables-container" id="tablesContainer">
+                <!-- Tables will be populated here -->
+            </div>
+        </section>
+
+        <!-- Results Panel -->
+        <div class="panel glass-card result-panel" id="resultPanel">
+            <div class="panel-header result-header">
+                <h2><i class="fas fa-chart-bar"></i> Operation Result</h2>
+                <div class="result-info">
+                    <span class="operation-badge" id="operationIndicator">SELECT</span>
+                    <span class="result-stats" id="resultStats">0 rows</span>
+                    <button class="btn btn-outline btn-sm" id="saveResult">
+                        <i class="fas fa-save"></i> Save as Table
+                    </button>
+                </div>
+            </div>
+            <div class="table-container">
+                <table id="resultTable">
+                    <!-- Results will be populated here -->
+                </table>
+            </div>
+        </div>
+
+        <!-- Operation History -->
+        <div class="panel glass-card history-panel">
+            <div class="panel-header">
+                <h2><i class="fas fa-history"></i> Operation History</h2>
+                <button class="btn btn-outline btn-sm" id="clearHistory">
+                    <i class="fas fa-trash"></i> Clear
+                </button>
+            </div>
+            <div class="history-list" id="historyList">
+                <!-- History items will be populated here -->
+            </div>
+        </div>
+
+        <footer class="glass-card">
+            <div class="footer-content">
+                <p>Relational Algebra Visualizer | Created for Educational Purposes</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-link" id="docLink">
+                        <i class="fas fa-book"></i> Documentation
+                    </a>
+                    <a href="#" class="footer-link" id="issueLink">
+                        <i class="fas fa-bug"></i> Report Issue
+                    </a>
+                    <a href="#" class="footer-link" id="shortcutsLink">
+                        <i class="fas fa-keyboard"></i> Shortcuts
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <div class="spinner-ring"></div>
+            <div class="spinner-text">Processing Operation</div>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div class="modal-overlay" id="helpModal">
+        <div class="modal glass-card">
+            <div class="modal-header">
+                <h2><i class="fas fa-question-circle"></i> How to Use the Relational Algebra Visualizer</h2>
+                <button class="icon-btn" id="closeHelp">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="help-section">
+                    <h3><i class="fas fa-play-circle"></i> Getting Started</h3>
+                    <p>This tool helps you learn and practice relational algebra operations with visual feedback.</p>
+                    <ol>
+                        <li>Start by creating tables or loading sample data</li>
+                        <li>Select a table from the dropdown to apply operations</li>
+                        <li>Choose an operation and provide required parameters</li>
+                        <li>View the result and optionally save it as a new table</li>
+                    </ol>
+                </div>
+                
+                <div class="help-section">
+                    <h3><i class="fas fa-table"></i> Creating Tables</h3>
+                    <ul>
+                        <li>Enter a unique table name</li>
+                        <li>Add column names separated by commas</li>
+                        <li>Add data rows with values separated by commas</li>
+                        <li>Each row should be on a separate line</li>
+                        <li>Use the sample data button for quick testing</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h3><i class="fas fa-cogs"></i> Operations Guide</h3>
+                    <div class="operation-help">
+                        <div class="op-help-item">
+                            <h4>SELECT (σ)</h4>
+                            <p>Filters rows based on a condition. Use operators: =, !=, >, >=, <, <=, AND, OR, NOT</p>
+                            <p><strong>Example:</strong> GPA > 3.5 AND Major = 'Computer Science'</p>
+                        </div>
+                        <div class="op-help-item">
+                            <h4>PROJECT (π)</h4>
+                            <p>Selects specific columns from a table. Check the columns you want to keep.</p>
+                        </div>
+                        <div class="op-help-item">
+                            <h4>JOIN (⨝)</h4>
+                            <p>Combines two tables based on matching values in common columns.</p>
+                            <p>Choose between INNER, LEFT, and RIGHT joins.</p>
+                        </div>
+                        <div class="op-help-item">
+                            <h4>UNION (∪)</h4>
+                            <p>Combines rows from two tables with compatible schemas.</p>
+                        </div>
+                        <div class="op-help-item">
+                            <h4>DIFFERENCE (-)</h4>
+                            <p>Finds rows present in the first table but not in the second.</p>
+                        </div>
+                        <div class="op-help-item">
+                            <h4>INTERSECT (∩)</h4>
+                            <p>Finds common rows between two tables.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="help-section">
+                    <h3><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h3>
+                    <ul>
+                        <li><kbd>Ctrl/Cmd + N</kbd>: Focus on table name input</li>
+                        <li><kbd>Ctrl/Cmd + D</kbd>: Load sample data</li>
+                        <li><kbd>Esc</kbd>: Clear current result</li>
+                        <li><kbd>Ctrl/Cmd + H</kbd>: Clear operation history</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h3><i class="fas fa-lightbulb"></i> Tips & Best Practices</h3>
+                    <ul>
+                        <li>Use descriptive table and column names</li>
+                        <li>Ensure compatible schemas for set operations</li>
+                        <li>Check operation history to track your progress</li>
+                        <li>Save important results as tables for future operations</li>
+                        <li>Use the toggle view button to focus on specific tables</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="startTutorial">
+                    <i class="fas fa-play"></i> Start Interactive Tutorial
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

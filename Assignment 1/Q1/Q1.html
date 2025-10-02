@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeoDBMS | Database Management Visualizer</title>
-    <link rel="stylesheet" href="Q1.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DBMS | Database Management Visualizer</title>
+    <link rel="stylesheet" href="Q1.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <!-- Animated Background -->
     <div class="bg-animation">
-        <div class="floating-shapes">
-            <div class="shape shape-1"></div>
-            <div class="shape shape-2"></div>
-            <div class="shape shape-3"></div>
-            <div class="shape shape-4"></div>
-        </div>
+      <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+        <div class="shape shape-4"></div>
+      </div>
     </div>
 
     <!-- Custom Cursor -->
@@ -23,563 +26,711 @@
     <div class="cursor-follower"></div>
 
     <header class="glass-header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">⚡</div>
-                <h1>NeoDBMS</h1>
-                <span class="logo-subtitle">Visualizer</span>
-            </div>
-            <div class="header-controls">
-                <button id="themeToggle" class="theme-toggle glass">
-                    <span class="theme-icon">🌙</span>
-                    <span class="theme-text">Cosmic Mode</span>
-                    <div class="toggle-glow"></div>
-                </button>
-                <button id="exportBtn" class="export-btn glass">
-                    <span>📊 Export</span>
-                </button>
-            </div>
+      <div class="header-content">
+        <div class="logo">
+          <div class="logo-icon">⚡</div>
+          <h1>DBMS</h1>
+          <span class="logo-subtitle">Visualizer</span>
         </div>
+        
+        <div class="header-controls">
+          <button id="themeToggle" class="theme-toggle glass">
+            <span class="theme-icon">🌙</span>
+            <span class="theme-text">Cosmic Mode</span>
+            <div class="toggle-glow"></div>
+          </button>
+
+          <button id="exportBtn" class="export-btn glass">
+            <span>📊 Export</span>
+          </button>
+          
+          <button id="helpBtn" class="help-btn glass">
+            <span>❓ How to Use</span>
+          </button>
+        </div>
+      </div>
     </header>
 
     <main class="container">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-content glass">
-                <h2 class="hero-title">
-                    <span class="title-gradient">Database Architecture</span>
-                    <span class="title-sub">Visualized in 3D Space</span>
-                </h2>
-                <p class="hero-description">
-                    Interactive exploration of Three-Schema Architecture, Schema vs Instance, 
-                    and DBMS advantages through immersive visualizations
+      <!-- Hero Section -->
+      <section class="hero-section">
+        <div class="hero-content glass">
+          <h2 class="hero-title">
+            <span class="title-gradient">Database Architecture</span>
+            <span class="title-sub">Visualized in 3D Space</span>
+          </h2>
+          <p class="hero-description">
+            Interactive exploration of Three-Schema Architecture, Schema vs
+            Instance, and DBMS advantages through immersive visualizations
+          </p>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">3</span>
+              <span class="stat-label">Architecture Layers</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">6</span>
+              <span class="stat-label">Core Advantages</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">∞</span>
+              <span class="stat-label">Possibilities</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Three-Schema Architecture Section -->
+      <section class="section architecture-section">
+        <div class="section-header">
+          <h2>Three-Schema Architecture</h2>
+          <div class="section-subtitle">Modular Database Design Framework</div>
+        </div>
+
+        <div class="architecture-visualization">
+          <div class="schema-layers-3d">
+            <div
+              class="layer-container external-layer"
+              onclick="showLayer('external')"
+            >
+              <div class="layer-card glass flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <div class="layer-icon">🔍</div>
+                    <h3>External Schema</h3>
+                    <p>User Views & Applications</p>
+                    <div class="layer-badge">View Level</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <h4>User Perspectives</h4>
+                    <ul>
+                      <li>Multiple user views</li>
+                      <li>Application interfaces</li>
+                      <li>Data security</li>
+                      <li>Custom access</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="layer-connectors">
+              <div class="connector"></div>
+              <div class="connector"></div>
+            </div>
+
+            <div
+              class="layer-container conceptual-layer"
+              onclick="showLayer('conceptual')"
+            >
+              <div class="layer-card glass flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <div class="layer-icon">🏗️</div>
+                    <h3>Conceptual Schema</h3>
+                    <p>Logical Structure & Relationships</p>
+                    <div class="layer-badge">Logical Level</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <h4>Global Structure</h4>
+                    <ul>
+                      <li>Entity relationships</li>
+                      <li>Business rules</li>
+                      <li>Data constraints</li>
+                      <li>Integrity rules</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="layer-connectors">
+              <div class="connector"></div>
+              <div class="connector"></div>
+            </div>
+
+            <div
+              class="layer-container internal-layer"
+              onclick="showLayer('internal')"
+            >
+              <div class="layer-card glass flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">
+                    <div class="layer-icon">💾</div>
+                    <h3>Internal Schema</h3>
+                    <p>Physical Storage & Optimization</p>
+                    <div class="layer-badge">Physical Level</div>
+                  </div>
+                  <div class="flip-card-back">
+                    <h4>Storage Details</h4>
+                    <ul>
+                      <li>File organization</li>
+                      <li>Indexing methods</li>
+                      <li>Access paths</li>
+                      <li>Storage allocation</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Layer Display -->
+          <div class="active-layer-display glass">
+            <div class="active-layer-header">
+              <span id="activeLayerTitle">Conceptual Schema</span>
+              <div class="layer-indicator conceptual-indicator"></div>
+            </div>
+            <div id="visualizationContent" class="visualization-content">
+              <div class="layer-preview">
+                <h4>Database Logical Structure</h4>
+                <p>
+                  Select a layer to explore detailed architecture components
                 </p>
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">3</span>
-                        <span class="stat-label">Architecture Layers</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">6</span>
-                        <span class="stat-label">Core Advantages</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">∞</span>
-                        <span class="stat-label">Possibilities</span>
-                    </div>
+                <div class="preview-animation">
+                  <div class="db-node"></div>
+                  <div class="db-connection"></div>
+                  <div class="db-node"></div>
                 </div>
+              </div>
             </div>
-        </section>
+          </div>
+        </div>
+      </section>
 
-        <!-- Three-Schema Architecture Section -->
-        <section class="section architecture-section">
-            <div class="section-header">
-                <h2>Three-Schema Architecture</h2>
-                <div class="section-subtitle">Modular Database Design Framework</div>
-            </div>
-            
-            <div class="architecture-visualization">
-                <div class="schema-layers-3d">
-                    <div class="layer-container external-layer" onclick="showLayer('external')">
-                        <div class="layer-card glass flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="layer-icon">🔍</div>
-                                    <h3>External Schema</h3>
-                                    <p>User Views & Applications</p>
-                                    <div class="layer-badge">View Level</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <h4>User Perspectives</h4>
-                                    <ul>
-                                        <li>Multiple user views</li>
-                                        <li>Application interfaces</li>
-                                        <li>Data security</li>
-                                        <li>Custom access</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <!-- Schema vs Instance Section -->
+      <section class="section schema-instance-section">
+        <div class="section-header">
+          <h2>Schema vs Instance</h2>
+          <div class="section-subtitle">Structure vs Current State</div>
+        </div>
 
-                    <div class="layer-connectors">
-                        <div class="connector"></div>
-                        <div class="connector"></div>
-                    </div>
+        <div class="schema-instance-comparison">
+          <div class="comparison-container">
+            <div class="schema-side glass">
+              <div class="comparison-header">
+                <h3>📐 Database Schema</h3>
+                <div class="status-badge static">Static Structure</div>
+              </div>
+              <div class="schema-definition">
+                <p>
+                  The <strong>blueprint</strong> defining database structure:
+                </p>
+                <ul class="feature-list">
+                  <li>Tables, attributes, data types</li>
+                  <li>Constraints and relationships</li>
+                  <li>Remains constant over time</li>
+                  <li>Defines valid states</li>
+                </ul>
+              </div>
 
-                    <div class="layer-container conceptual-layer" onclick="showLayer('conceptual')">
-                        <div class="layer-card glass flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="layer-icon">🏗️</div>
-                                    <h3>Conceptual Schema</h3>
-                                    <p>Logical Structure & Relationships</p>
-                                    <div class="layer-badge">Logical Level</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <h4>Global Structure</h4>
-                                    <ul>
-                                        <li>Entity relationships</li>
-                                        <li>Business rules</li>
-                                        <li>Data constraints</li>
-                                        <li>Integrity rules</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="layer-connectors">
-                        <div class="connector"></div>
-                        <div class="connector"></div>
-                    </div>
-
-                    <div class="layer-container internal-layer" onclick="showLayer('internal')">
-                        <div class="layer-card glass flip-card">
-                            <div class="flip-card-inner">
-                                <div class="flip-card-front">
-                                    <div class="layer-icon">💾</div>
-                                    <h3>Internal Schema</h3>
-                                    <p>Physical Storage & Optimization</p>
-                                    <div class="layer-badge">Physical Level</div>
-                                </div>
-                                <div class="flip-card-back">
-                                    <h4>Storage Details</h4>
-                                    <ul>
-                                        <li>File organization</li>
-                                        <li>Indexing methods</li>
-                                        <li>Access paths</li>
-                                        <li>Storage allocation</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Active Layer Display -->
-                <div class="active-layer-display glass">
-                    <div class="active-layer-header">
-                        <span id="activeLayerTitle">Conceptual Schema</span>
-                        <div class="layer-indicator conceptual-indicator"></div>
-                    </div>
-                    <div id="visualizationContent" class="visualization-content">
-                        <div class="layer-preview">
-                            <h4>Database Logical Structure</h4>
-                            <p>Select a layer to explore detailed architecture components</p>
-                            <div class="preview-animation">
-                                <div class="db-node"></div>
-                                <div class="db-connection"></div>
-                                <div class="db-node"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Schema vs Instance Section -->
-        <section class="section schema-instance-section">
-            <div class="section-header">
-                <h2>Schema vs Instance</h2>
-                <div class="section-subtitle">Structure vs Current State</div>
-            </div>
-
-            <div class="schema-instance-comparison">
-                <div class="comparison-container">
-                    <div class="schema-side glass">
-                        <div class="comparison-header">
-                            <h3>📐 Database Schema</h3>
-                            <div class="status-badge static">Static Structure</div>
-                        </div>
-                        <div class="schema-definition">
-                            <p>The <strong>blueprint</strong> defining database structure:</p>
-                            <ul class="feature-list">
-                                <li>Tables, attributes, data types</li>
-                                <li>Constraints and relationships</li>
-                                <li>Remains constant over time</li>
-                                <li>Defines valid states</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="schema-table-container">
-                            <table class="schema-table">
-                                <thead>
-                                    <tr>
-                                        <th>Attribute</th>
-                                        <th>Type</th>
-                                        <th>Constraints</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>StudentID</td>
-                                        <td>INT</td>
-                                        <td>PRIMARY KEY</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Name</td>
-                                        <td>VARCHAR(50)</td>
-                                        <td>NOT NULL</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Age</td>
-                                        <td>INT</td>
-                                        <td>CHECK (≥ 16)</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Email</td>
-                                        <td>VARCHAR(100)</td>
-                                        <td>UNIQUE</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="instance-side glass">
-                        <div class="comparison-header">
-                            <h3>📊 Database Instance</h3>
-                            <div class="status-badge dynamic">Dynamic Data</div>
-                        </div>
-                        <div class="instance-definition">
-                            <p>The <strong>current state</strong> of database content:</p>
-                            <ul class="feature-list">
-                                <li>Actual data at a moment</li>
-                                <li>Changes with operations</li>
-                                <li>Must conform to schema</li>
-                                <li>Also called database state</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="instance-table-container">
-                            <table class="instance-table">
-                                <thead>
-                                    <tr>
-                                        <th>StudentID</th>
-                                        <th>Name</th>
-                                        <th>Age</th>
-                                        <th>Email</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="instanceTable">
-                                    <tr>
-                                        <td>101</td>
-                                        <td>John Smith</td>
-                                        <td>20</td>
-                                        <td>john@edu.edu</td>
-                                    </tr>
-                                    <tr>
-                                        <td>102</td>
-                                        <td>Jane Doe</td>
-                                        <td>22</td>
-                                        <td>jane@edu.edu</td>
-                                    </tr>
-                                    <tr>
-                                        <td>103</td>
-                                        <td>Bob Johnson</td>
-                                        <td>19</td>
-                                        <td>bob@edu.edu</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Interactive Form -->
-                <div class="interactive-form-container glass">
-                    <h3>➕ Add New Student Instance</h3>
-                    <form id="studentForm" class="student-form">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label for="studentId">Student ID</label>
-                                <input type="number" id="studentId" required min="100" max="99999" 
-                                       placeholder="Enter unique ID">
-                                <div class="input-glow"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="studentName">Full Name</label>
-                                <input type="text" id="studentName" required maxlength="50" 
-                                       placeholder="Student full name">
-                                <div class="input-glow"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="studentAge">Age</label>
-                                <input type="number" id="studentAge" required min="16" max="100" 
-                                       placeholder="16-100">
-                                <div class="input-glow"></div>
-                            </div>
-                            <div class="form-group">
-                                <label for="studentEmail">Email</label>
-                                <input type="email" id="studentEmail" required 
-                                       placeholder="student@edu.edu">
-                                <div class="input-glow"></div>
-                            </div>
-                        </div>
-                        <button type="submit" class="submit-btn glass">
-                            <span class="btn-text">Create Instance</span>
-                            <div class="btn-glow"></div>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </section>
-
-        <!-- DBMS Advantages Section -->
-        <section class="section advantages-section">
-            <div class="section-header">
-                <h2>DBMS Advantages</h2>
-                <div class="section-subtitle">Why Database Management Systems Excel</div>
-            </div>
-
-            <div class="advantages-grid">
-                <!-- Data Independence -->
-                <div class="advantage-card glass" onclick="toggleAdvantage('dataIndependence')">
-                    <div class="advantage-header">
-                        <div class="advantage-icon">🛡️</div>
-                        <h3>Data Independence</h3>
-                        <div class="advantage-badge">Core Feature</div>
-                    </div>
-                    <p>Applications insulated from storage structure changes</p>
-                    <div id="dataIndependence" class="advantage-details">
-                        <div class="pros-box">
-                            <h4>✅ DBMS Benefits</h4>
-                            <ul>
-                                <li>Logical & physical separation</li>
-                                <li>No application rewrites needed</li>
-                                <li>Easy database modifications</li>
-                            </ul>
-                        </div>
-                        <div class="cons-box">
-                            <h4>❌ File System Issues</h4>
-                            <ul>
-                                <li>Tightly coupled with apps</li>
-                                <li>Program modifications required</li>
-                                <li>High maintenance cost</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Data Integrity -->
-                <div class="advantage-card glass" onclick="toggleAdvantage('dataIntegrity')">
-                    <div class="advantage-header">
-                        <div class="advantage-icon">✅</div>
-                        <h3>Data Integrity</h3>
-                        <div class="advantage-badge">Accuracy</div>
-                    </div>
-                    <p>Automatic enforcement of business rules and constraints</p>
-                    <div id="dataIntegrity" class="advantage-details">
-                        <div class="pros-box">
-                            <h4>✅ DBMS Benefits</h4>
-                            <ul>
-                                <li>Constraint enforcement</li>
-                                <li>Referential integrity</li>
-                                <li>Reduced data anomalies</li>
-                            </ul>
-                        </div>
-                        <div class="cons-box">
-                            <h4>❌ File System Issues</h4>
-                            <ul>
-                                <li>Manual integrity checks</li>
-                                <li>Inconsistent data</li>
-                                <li>Application-level validation</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Concurrent Access -->
-                <div class="advantage-card glass" onclick="toggleAdvantage('concurrency')">
-                    <div class="advantage-header">
-                        <div class="advantage-icon">👥</div>
-                        <h3>Concurrent Access</h3>
-                        <div class="advantage-badge">Performance</div>
-                    </div>
-                    <p>Multiple users access data simultaneously without conflicts</p>
-                    <div id="concurrency" class="advantage-details">
-                        <div class="pros-box">
-                            <h4>✅ DBMS Benefits</h4>
-                            <ul>
-                                <li>Transaction management</li>
-                                <li>Automatic locking</li>
-                                <li>Conflict resolution</li>
-                            </ul>
-                        </div>
-                        <div class="cons-box">
-                            <h4>❌ File System Issues</h4>
-                            <ul>
-                                <li>Data inconsistency risk</li>
-                                <li>Manual locking required</li>
-                                <li>Corruption possibilities</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Security -->
-                <div class="advantage-card glass" onclick="toggleAdvantage('security')">
-                    <div class="advantage-header">
-                        <div class="advantage-icon">🔒</div>
-                        <h3>Security</h3>
-                        <div class="advantage-badge">Protection</div>
-                    </div>
-                    <p>Granular access control and authorization mechanisms</p>
-                    <div id="security" class="advantage-details">
-                        <div class="pros-box">
-                            <h4>✅ DBMS Benefits</h4>
-                            <ul>
-                                <li>Role-based access</li>
-                                <li>Encryption support</li>
-                                <li>Audit trails</li>
-                            </ul>
-                        </div>
-                        <div class="cons-box">
-                            <h4>❌ File System Issues</h4>
-                            <ul>
-                                <li>Basic file permissions</li>
-                                <li>No fine-grained control</li>
-                                <li>Limited security options</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Backup & Recovery -->
-                <div class="advantage-card glass" onclick="toggleAdvantage('backup')">
-                    <div class="advantage-header">
-                        <div class="advantage-icon">💾</div>
-                        <h3>Backup & Recovery</h3>
-                        <div class="advantage-badge">Reliability</div>
-                    </div>
-                    <p>Automated mechanisms to prevent data loss</p>
-                    <div id="backup" class="advantage-details">
-                        <div class="pros-box">
-                            <h4>✅ DBMS Benefits</h4>
-                            <ul>
-                                <li>Automated backups</li>
-                                <li>Point-in-time recovery</li>
-                                <li>Transaction logging</li>
-                            </ul>
-                        </div>
-                        <div class="cons-box">
-                            <h4>❌ File System Issues</h4>
-                            <ul>
-                                <li>Manual backup processes</li>
-                                <li>Data loss risk</li>
-                                <li>No transaction safety</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Reduced Redundancy -->
-                <div class="advantage-card glass" onclick="toggleAdvantage('redundancy')">
-                    <div class="advantage-header">
-                        <div class="advantage-icon">📊</div>
-                        <h3>Reduced Redundancy</h3>
-                        <div class="advantage-badge">Efficiency</div>
-                    </div>
-                    <p>Minimized duplicate data through normalization</p>
-                    <div id="redundancy" class="advantage-details">
-                        <div class="pros-box">
-                            <h4>✅ DBMS Benefits</h4>
-                            <ul>
-                                <li>Normalized design</li>
-                                <li>Single source of truth</li>
-                                <li>Storage optimization</li>
-                            </ul>
-                        </div>
-                        <div class="cons-box">
-                            <h4>❌ File System Issues</h4>
-                            <ul>
-                                <li>Data duplication</li>
-                                <li>Update anomalies</li>
-                                <li>Inconsistency problems</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Comparison Table -->
-            <div class="comparison-table-container glass">
-                <h3>Feature Comparison Matrix</h3>
-                <table class="feature-comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Feature</th>
-                            <th>DBMS</th>
-                            <th>File System</th>
-                            <th>Advantage Level</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Data Independence</td>
-                            <td class="dbms-cell">High</td>
-                            <td class="filesystem-cell">Low</td>
-                            <td class="advantage-high">Significant</td>
-                        </tr>
-                        <tr>
-                            <td>Data Integrity</td>
-                            <td class="dbms-cell">Enforced</td>
-                            <td class="filesystem-cell">Manual</td>
-                            <td class="advantage-high">Critical</td>
-                        </tr>
-                        <tr>
-                            <td>Concurrent Access</td>
-                            <td class="dbms-cell">Managed</td>
-                            <td class="filesystem-cell">Risky</td>
-                            <td class="advantage-medium">High</td>
-                        </tr>
-                        <tr>
-                            <td>Security</td>
-                            <td class="dbms-cell">Granular</td>
-                            <td class="filesystem-cell">Basic</td>
-                            <td class="advantage-high">Significant</td>
-                        </tr>
-                        <tr>
-                            <td>Backup & Recovery</td>
-                            <td class="dbms-cell">Automated</td>
-                            <td class="filesystem-cell">Manual</td>
-                            <td class="advantage-medium">High</td>
-                        </tr>
-                        <tr>
-                            <td>Data Redundancy</td>
-                            <td class="dbms-cell">Minimized</td>
-                            <td class="filesystem-cell">High</td>
-                            <td class="advantage-medium">High</td>
-                        </tr>
-                    </tbody>
+              <div class="schema-table-container">
+                <table class="schema-table">
+                  <thead>
+                    <tr>
+                      <th>Attribute</th>
+                      <th>Type</th>
+                      <th>Constraints</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>StudentID</td>
+                      <td>INT</td>
+                      <td>PRIMARY KEY</td>
+                    </tr>
+                    <tr>
+                      <td>Name</td>
+                      <td>VARCHAR(50)</td>
+                      <td>NOT NULL</td>
+                    </tr>
+                    <tr>
+                      <td>Age</td>
+                      <td>INT</td>
+                      <td>CHECK (≥ 16)</td>
+                    </tr>
+                    <tr>
+                      <td>Email</td>
+                      <td>VARCHAR(100)</td>
+                      <td>UNIQUE</td>
+                    </tr>
+                  </tbody>
                 </table>
+              </div>
             </div>
-        </section>
+
+            <div class="instance-side glass">
+              <div class="comparison-header">
+                <h3>📊 Database Instance</h3>
+                <div class="status-badge dynamic">Dynamic Data</div>
+              </div>
+              <div class="instance-definition">
+                <p>The <strong>current state</strong> of database content:</p>
+                <ul class="feature-list">
+                  <li>Actual data at a moment</li>
+                  <li>Changes with operations</li>
+                  <li>Must conform to schema</li>
+                  <li>Also called database state</li>
+                </ul>
+              </div>
+
+              <div class="instance-table-container">
+                <table class="instance-table">
+                  <thead>
+                    <tr>
+                      <th>StudentID</th>
+                      <th>Name</th>
+                      <th>Age</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody id="instanceTable">
+                    <tr>
+                      <td>101</td>
+                      <td>Divyansh</td>
+                      <td>20</td>
+                      <td>divyansh@edu.com</td>
+                    </tr>
+                    <tr>
+                      <td>102</td>
+                      <td>Raj</td>
+                      <td>19</td>
+                      <td>raj@edu.com</td>
+                    </tr>
+                    <tr>
+                      <td>103</td>
+                      <td>Harshit</td>
+                      <td>21</td>
+                      <td>harshit@edu.com</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Form -->
+          <div class="interactive-form-container glass">
+            <h3>➕ Add New Student Instance</h3>
+            <form id="studentForm" class="student-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label for="studentId">Student ID</label>
+                  <input
+                    type="number"
+                    id="studentId"
+                    required
+                    min="100"
+                    max="99999"
+                    placeholder="Enter unique ID"
+                  />
+                  <div class="input-glow"></div>
+                </div>
+                <div class="form-group">
+                  <label for="studentName">Full Name</label>
+                  <input
+                    type="text"
+                    id="studentName"
+                    required
+                    maxlength="50"
+                    placeholder="Student full name"
+                  />
+                  <div class="input-glow"></div>
+                </div>
+                <div class="form-group">
+                  <label for="studentAge">Age</label>
+                  <input
+                    type="number"
+                    id="studentAge"
+                    required
+                    min="16"
+                    max="100"
+                    placeholder="16-100"
+                  />
+                  <div class="input-glow"></div>
+                </div>
+                <div class="form-group">
+                  <label for="studentEmail">Email</label>
+                  <input
+                    type="email"
+                    id="studentEmail"
+                    required
+                    placeholder="student@edu.com"
+                  />
+                  <div class="input-glow"></div>
+                </div>
+              </div>
+              <button type="submit" class="submit-btn glass">
+                <span class="btn-text">Create Instance</span>
+                <div class="btn-glow"></div>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- DBMS Advantages Section -->
+      <section class="section advantages-section">
+        <div class="section-header">
+          <h2>DBMS Advantages</h2>
+          <div class="section-subtitle">
+            Why Database Management Systems Excel
+          </div>
+        </div>
+
+        <div class="advantages-grid">
+          <!-- Data Independence -->
+          <div
+            class="advantage-card glass"
+            onclick="toggleAdvantage('dataIndependence')"
+          >
+            <div class="advantage-header">
+              <div class="advantage-icon">🛡️</div>
+              <h3>Data Independence</h3>
+              <div class="advantage-badge">Core Feature</div>
+            </div>
+            <p>Applications insulated from storage structure changes</p>
+            <div id="dataIndependence" class="advantage-details">
+              <div class="pros-box">
+                <h4>✅ DBMS Benefits</h4>
+                <ul>
+                  <li>Logical & physical separation</li>
+                  <li>No application rewrites needed</li>
+                  <li>Easy database modifications</li>
+                </ul>
+              </div>
+              <div class="cons-box">
+                <h4>❌ File System Issues</h4>
+                <ul>
+                  <li>Tightly coupled with apps</li>
+                  <li>Program modifications required</li>
+                  <li>High maintenance cost</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Data Integrity -->
+          <div
+            class="advantage-card glass"
+            onclick="toggleAdvantage('dataIntegrity')"
+          >
+            <div class="advantage-header">
+              <div class="advantage-icon">✅</div>
+              <h3>Data Integrity</h3>
+              <div class="advantage-badge">Accuracy</div>
+            </div>
+            <p>Automatic enforcement of business rules and constraints</p>
+            <div id="dataIntegrity" class="advantage-details">
+              <div class="pros-box">
+                <h4>✅ DBMS Benefits</h4>
+                <ul>
+                  <li>Constraint enforcement</li>
+                  <li>Referential integrity</li>
+                  <li>Reduced data anomalies</li>
+                </ul>
+              </div>
+              <div class="cons-box">
+                <h4>❌ File System Issues</h4>
+                <ul>
+                  <li>Manual integrity checks</li>
+                  <li>Inconsistent data</li>
+                  <li>Application-level validation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Concurrent Access -->
+          <div
+            class="advantage-card glass"
+            onclick="toggleAdvantage('concurrency')"
+          >
+            <div class="advantage-header">
+              <div class="advantage-icon">👥</div>
+              <h3>Concurrent Access</h3>
+              <div class="advantage-badge">Performance</div>
+            </div>
+            <p>Multiple users access data simultaneously without conflicts</p>
+            <div id="concurrency" class="advantage-details">
+              <div class="pros-box">
+                <h4>✅ DBMS Benefits</h4>
+                <ul>
+                  <li>Transaction management</li>
+                  <li>Automatic locking</li>
+                  <li>Conflict resolution</li>
+                </ul>
+              </div>
+              <div class="cons-box">
+                <h4>❌ File System Issues</h4>
+                <ul>
+                  <li>Data inconsistency risk</li>
+                  <li>Manual locking required</li>
+                  <li>Corruption possibilities</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Security -->
+          <div
+            class="advantage-card glass"
+            onclick="toggleAdvantage('security')"
+          >
+            <div class="advantage-header">
+              <div class="advantage-icon">🔒</div>
+              <h3>Security</h3>
+              <div class="advantage-badge">Protection</div>
+            </div>
+            <p>Granular access control and authorization mechanisms</p>
+            <div id="security" class="advantage-details">
+              <div class="pros-box">
+                <h4>✅ DBMS Benefits</h4>
+                <ul>
+                  <li>Role-based access</li>
+                  <li>Encryption support</li>
+                  <li>Audit trails</li>
+                </ul>
+              </div>
+              <div class="cons-box">
+                <h4>❌ File System Issues</h4>
+                <ul>
+                  <li>Basic file permissions</li>
+                  <li>No fine-grained control</li>
+                  <li>Limited security options</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Backup & Recovery -->
+          <div class="advantage-card glass" onclick="toggleAdvantage('backup')">
+            <div class="advantage-header">
+              <div class="advantage-icon">💾</div>
+              <h3>Backup & Recovery</h3>
+              <div class="advantage-badge">Reliability</div>
+            </div>
+            <p>Automated mechanisms to prevent data loss</p>
+            <div id="backup" class="advantage-details">
+              <div class="pros-box">
+                <h4>✅ DBMS Benefits</h4>
+                <ul>
+                  <li>Automated backups</li>
+                  <li>Point-in-time recovery</li>
+                  <li>Transaction logging</li>
+                </ul>
+              </div>
+              <div class="cons-box">
+                <h4>❌ File System Issues</h4>
+                <ul>
+                  <li>Manual backup processes</li>
+                  <li>Data loss risk</li>
+                  <li>No transaction safety</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reduced Redundancy -->
+          <div
+            class="advantage-card glass"
+            onclick="toggleAdvantage('redundancy')"
+          >
+            <div class="advantage-header">
+              <div class="advantage-icon">📊</div>
+              <h3>Reduced Redundancy</h3>
+              <div class="advantage-badge">Efficiency</div>
+            </div>
+            <p>Minimized duplicate data through normalization</p>
+            <div id="redundancy" class="advantage-details">
+              <div class="pros-box">
+                <h4>✅ DBMS Benefits</h4>
+                <ul>
+                  <li>Normalized design</li>
+                  <li>Single source of truth</li>
+                  <li>Storage optimization</li>
+                </ul>
+              </div>
+              <div class="cons-box">
+                <h4>❌ File System Issues</h4>
+                <ul>
+                  <li>Data duplication</li>
+                  <li>Update anomalies</li>
+                  <li>Inconsistency problems</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="comparison-table-container glass">
+          <h3>Feature Comparison Matrix</h3>
+          <table class="feature-comparison-table">
+            <thead>
+              <tr>
+                <th>Feature</th>
+                <th>DBMS</th>
+                <th>File System</th>
+                <th>Advantage Level</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Data Independence</td>
+                <td class="dbms-cell">High</td>
+                <td class="filesystem-cell">Low</td>
+                <td class="advantage-high">Significant</td>
+              </tr>
+              <tr>
+                <td>Data Integrity</td>
+                <td class="dbms-cell">Enforced</td>
+                <td class="filesystem-cell">Manual</td>
+                <td class="advantage-high">Critical</td>
+              </tr>
+              <tr>
+                <td>Concurrent Access</td>
+                <td class="dbms-cell">Managed</td>
+                <td class="filesystem-cell">Risky</td>
+                <td class="advantage-medium">High</td>
+              </tr>
+              <tr>
+                <td>Security</td>
+                <td class="dbms-cell">Granular</td>
+                <td class="filesystem-cell">Basic</td>
+                <td class="advantage-high">Significant</td>
+              </tr>
+              <tr>
+                <td>Backup & Recovery</td>
+                <td class="dbms-cell">Automated</td>
+                <td class="filesystem-cell">Manual</td>
+                <td class="advantage-medium">High</td>
+              </tr>
+              <tr>
+                <td>Data Redundancy</td>
+                <td class="dbms-cell">Minimized</td>
+                <td class="filesystem-cell">High</td>
+                <td class="advantage-medium">High</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </main>
 
     <footer class="glass-footer">
-        <div class="footer-content">
-            <div class="footer-logo">
-                <div class="logo-icon">⚡</div>
-                <span>NeoDBMS Visualizer</span>
+      <div class="footer-content">
+        <div class="footer-logo">
+          <div class="logo-icon">⚡</div>
+          <span>DBMS Visualizer</span>
+        </div>
+        <div class="footer-info">
+          <p>Advanced Database Management System Educational Tool</p>
+          <p class="footer-copyright">
+            © 2024 DBMS | Architected with 💙 by JavaPyWizard
+          </p>
+        </div>
+        <div class="footer-stats">
+          <div class="footer-stat">
+            <span class="stat-value" id="totalInstances">3</span>
+            <span class="stat-label">Instances</span>
+          </div>
+          <div class="footer-stat">
+            <span class="stat-value" id="activeLayerCount">1</span>
+            <span class="stat-label">Active Layer</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+        <!-- Help Modal -->
+    <div id="helpModal" class="help-modal">
+        <div class="help-content glass">
+            <div class="help-header">
+                <h2>How to Use DBMS</h2>
+                <button class="close-help">&times;</button>
             </div>
-            <div class="footer-info">
-                <p>Advanced Database Management System Educational Tool</p>
-                <p class="footer-copyright">© 2024 NeoDBMS | Architected with 💙 by JavaPyWizard</p>
+            
+            <div class="help-section">
+                <h3>🎯 Getting Started</h3>
+                <ul>
+                    <li><strong>Explore Architecture:</strong> Click on the three schema layers to learn about different database levels</li>
+                    <li><strong>Interact with Content:</strong> Hover over cards to see flip animations and detailed information</li>
+                    <li><strong>Switch Themes:</strong> Use the theme toggle to change between light and dark modes</li>
+                    <li><strong>Add Data:</strong> Use the form to create new student instances and see schema vs instance in action</li>
+                </ul>
             </div>
-            <div class="footer-stats">
-                <div class="footer-stat">
-                    <span class="stat-value" id="totalInstances">3</span>
-                    <span class="stat-label">Instances</span>
+
+            <div class="help-section">
+                <h3>🏗️ Three-Schema Architecture</h3>
+                <ul>
+                    <li><strong>External Schema:</strong> User views and application interfaces</li>
+                    <li><strong>Conceptual Schema:</strong> Logical structure and entity relationships</li>
+                    <li><strong>Internal Schema:</strong> Physical storage and optimization details</li>
+                    <li>Click any layer card to see detailed information in the main display area</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>📊 Schema vs Instance</h3>
+                <ul>
+                    <li><strong>Schema:</strong> The blueprint defining database structure (static)</li>
+                    <li><strong>Instance:</strong> The actual data at a given time (dynamic)</li>
+                    <li>Use the form to add new student records and watch the instance table grow</li>
+                    <li>Observe how instances must conform to the schema constraints</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>⭐ DBMS Advantages</h3>
+                <ul>
+                    <li>Click on any advantage card to expand and see detailed comparisons</li>
+                    <li>Compare DBMS benefits vs traditional file system limitations</li>
+                    <li>Explore the feature comparison matrix at the bottom</li>
+                </ul>
+            </div>
+
+            <div class="help-section">
+                <h3>⌨️ Keyboard Shortcuts</h3>
+                <div class="shortcut-list">
+                    <div class="shortcut-item">
+                        <span>Toggle Theme</span>
+                        <span class="shortcut-key">Ctrl + T</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>Export Data</span>
+                        <span class="shortcut-key">Ctrl + E</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>External Schema</span>
+                        <span class="shortcut-key">Ctrl + 1</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>Conceptual Schema</span>
+                        <span class="shortcut-key">Ctrl + 2</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>Internal Schema</span>
+                        <span class="shortcut-key">Ctrl + 3</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <span>Show This Help</span>
+                        <span class="shortcut-key">Ctrl + ?</span>
+                    </div>
                 </div>
-                <div class="footer-stat">
-                    <span class="stat-value" id="activeLayerCount">1</span>
-                    <span class="stat-label">Active Layer</span>
-                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>💡 Tips</h3>
+                <ul>
+                    <li>Use the export feature to download your current data as JSON</li>
+                    <li>All your preferences and data are saved automatically</li>
+                    <li>The site is fully responsive - try it on different devices</li>
+                    <li>Hover over interactive elements for additional effects and information</li>
+                </ul>
             </div>
         </div>
-    </footer>
+    </div>
 
     <!-- Notification System -->
     <div id="notificationContainer" class="notification-container"></div>
