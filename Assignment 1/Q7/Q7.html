@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Transaction Simulator</title>
+    <title>Transaction Management Simulator</title>
     <link rel="stylesheet" href="Q7.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,24 +19,70 @@
     <div class="cursor"></div>
     <div class="cursor-follower"></div>
 
+    <!-- How to Use Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>How to Use This Simulator</h2>
+            <div class="help-sections">
+                <div class="help-section">
+                    <h3>📊 Transaction States</h3>
+                    <p>Shows how a transaction moves through different states:</p>
+                    <ul>
+                        <li><strong>Active:</strong> Transaction is running</li>
+                        <li><strong>Partially Committed:</strong> All operations done</li>
+                        <li><strong>Committed:</strong> Changes saved permanently</li>
+                        <li><strong>Failed:</strong> Something went wrong</li>
+                        <li><strong>Aborted:</strong> Changes rolled back</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h3>⚡ ACID Properties</h3>
+                    <ul>
+                        <li><strong>Atomicity:</strong> All or nothing - money transfer demo</li>
+                        <li><strong>Consistency:</strong> Rules always followed - balance check demo</li>
+                        <li><strong>Isolation:</strong> Transactions don't interfere</li>
+                        <li><strong>Durability:</strong> Changes survive crashes</li>
+                    </ul>
+                </div>
+                
+                <div class="help-section">
+                    <h3>⚠️ Dirty Read Problem</h3>
+                    <p>Shows what happens when Transaction 2 reads uncommitted data from Transaction 1</p>
+                </div>
+                
+                <div class="help-section">
+                    <h3>🔐 Privileges Management</h3>
+                    <p>Practice giving and taking away database permissions from users</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Container -->
     <div class="container">
         <!-- Header -->
         <header class="header">
             <div class="logo">
                 <i class="fas fa-database"></i>
-                <span>QuantumTX</span>
+                <span>Transaction Simulator</span>
             </div>
-            <div class="theme-switch-wrapper">
-                <label class="theme-switch" for="checkbox">
-                    <input type="checkbox" id="checkbox" />
-                    <div class="slider round">
-                        <div class="sun-moon">
-                            <i class="fas fa-sun"></i>
-                            <i class="fas fa-moon"></i>
+            <div class="header-controls">
+                <button class="btn-help" id="helpButton">
+                    <i class="fas fa-question-circle"></i> How to Use
+                </button>
+                <div class="theme-switch-wrapper">
+                    <label class="theme-switch" for="checkbox">
+                        <input type="checkbox" id="checkbox" />
+                        <div class="slider round">
+                            <div class="sun-moon">
+                                <i class="fas fa-sun"></i>
+                                <i class="fas fa-moon"></i>
+                            </div>
                         </div>
-                    </div>
-                </label>
+                    </label>
+                </div>
             </div>
         </header>
 
@@ -52,11 +98,11 @@
             </div>
             <div class="nav-item" data-tab="dirty-read">
                 <i class="fas fa-exclamation-triangle"></i>
-                <span>Dirty Read</span>
+                <span>Dirty Read Problem</span>
             </div>
             <div class="nav-item" data-tab="privileges">
                 <i class="fas fa-user-shield"></i>
-                <span>Privileges</span>
+                <span>User Privileges</span>
             </div>
         </nav>
 
@@ -66,7 +112,7 @@
             <section id="states" class="content-section active">
                 <div class="section-header">
                     <h2>Transaction State Management</h2>
-                    <p>Visualize and interact with transaction lifecycle states</p>
+                    <p>See how a transaction moves through different states in its life</p>
                 </div>
                 
                 <div class="state-machine">
@@ -75,7 +121,7 @@
                             <i class="fas fa-play"></i>
                         </div>
                         <h3>Active</h3>
-                        <p>Transaction is executing operations</p>
+                        <p>Transaction is running</p>
                     </div>
                     
                     <div class="state-connector"></div>
@@ -85,7 +131,7 @@
                             <i class="fas fa-pause"></i>
                         </div>
                         <h3>Partially Committed</h3>
-                        <p>Final operation executed</p>
+                        <p>All operations done</p>
                     </div>
                     
                     <div class="state-connector"></div>
@@ -95,7 +141,7 @@
                             <i class="fas fa-check"></i>
                         </div>
                         <h3>Committed</h3>
-                        <p>Transaction successfully completed</p>
+                        <p>Successfully completed</p>
                     </div>
                     
                     <div class="failure-branch">
@@ -104,7 +150,7 @@
                                 <i class="fas fa-times"></i>
                             </div>
                             <h3>Failed</h3>
-                            <p>Transaction cannot proceed</p>
+                            <p>Something went wrong</p>
                         </div>
                         
                         <div class="state-connector"></div>
@@ -114,14 +160,14 @@
                                 <i class="fas fa-undo"></i>
                             </div>
                             <h3>Aborted</h3>
-                            <p>Transaction rolled back</p>
+                            <p>Changes rolled back</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="transaction-controls">
                     <button class="btn btn-primary" id="beginTransaction">
-                        <i class="fas fa-play"></i> Begin Transaction
+                        <i class="fas fa-play"></i> Start Transaction
                     </button>
                     <button class="btn btn-success" id="commitTransaction" disabled>
                         <i class="fas fa-check"></i> Commit
@@ -129,8 +175,8 @@
                     <button class="btn btn-danger" id="rollbackTransaction" disabled>
                         <i class="fas fa-undo"></i> Rollback
                     </button>
-                    <button class="btn btn-warning" id="simulateFailure">
-                        <i class="fas fa-bug"></i> Simulate Failure
+                    <button class="btn btn-warning" id="simulateFailure" disabled>
+                        <i class="fas fa-bug"></i> Simulate Crash
                     </button>
                 </div>
 
@@ -148,8 +194,8 @@
             <!-- ACID Properties Section -->
             <section id="acid" class="content-section">
                 <div class="section-header">
-                    <h2>ACID Properties Demonstration</h2>
-                    <p>Understanding the core principles of transaction management</p>
+                    <h2>ACID Properties Demo</h2>
+                    <p>Learn the four key properties of database transactions</p>
                 </div>
 
                 <div class="acid-grid">
@@ -158,24 +204,26 @@
                             <i class="fas fa-atom"></i>
                         </div>
                         <h3>Atomicity</h3>
-                        <p>All or nothing - transactions execute completely or not at all</p>
+                        <p>All operations happen or none happen</p>
                         <button class="btn-demo">Show Demo</button>
                         <div class="demo-content">
                             <div class="bank-transfer-demo">
                                 <div class="account" id="accountA">
                                     <h4>Account A</h4>
-                                    <div class="balance">$1000</div>
+                                    <div class="balance">₹10,000</div>
                                 </div>
                                 <div class="transfer-arrow">
                                     <i class="fas fa-exchange-alt"></i>
                                 </div>
                                 <div class="account" id="accountB">
                                     <h4>Account B</h4>
-                                    <div class="balance">$500</div>
+                                    <div class="balance">₹5,000</div>
                                 </div>
                             </div>
-                            <button class="btn-transfer" data-amount="200">Transfer $200</button>
-                            <button class="btn-transfer-fail">Simulate Failure</button>
+                            <div class="demo-buttons">
+                                <button class="btn-transfer" data-amount="2000">Transfer ₹2,000</button>
+                                <button class="btn-transfer-fail">Simulate System Crash</button>
+                            </div>
                         </div>
                     </div>
 
@@ -184,14 +232,17 @@
                             <i class="fas fa-balance-scale"></i>
                         </div>
                         <h3>Consistency</h3>
-                        <p>Database remains in consistent state before and after transaction</p>
+                        <p>Database follows rules before and after</p>
                         <button class="btn-demo">Show Demo</button>
                         <div class="demo-content">
                             <div class="constraint-demo">
-                                <h4>Balance Constraint: ≥ $0</h4>
+                                <h4>Rule: Balance cannot be negative</h4>
                                 <div class="account-constraint">
-                                    <div class="balance-display">$300</div>
-                                    <button class="btn-withdraw" data-amount="400">Withdraw $400</button>
+                                    <div class="balance-display">₹3,000</div>
+                                    <div class="demo-buttons">
+                                        <button class="btn-withdraw" data-amount="2000">Withdraw ₹2,000</button>
+                                        <button class="btn-withdraw" data-amount="4000">Withdraw ₹4,000</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -202,18 +253,21 @@
                             <i class="fas fa-user-lock"></i>
                         </div>
                         <h3>Isolation</h3>
-                        <p>Concurrent transactions don't interfere with each other</p>
+                        <p>Transactions don't interfere with each other</p>
                         <button class="btn-demo">Show Demo</button>
                         <div class="demo-content">
                             <div class="isolation-demo">
                                 <div class="transaction" id="tx1">
                                     <h4>Transaction 1</h4>
-                                    <div class="tx-status">READ balance: $1000</div>
+                                    <div class="tx-status">Reading data...</div>
                                 </div>
                                 <div class="transaction" id="tx2">
                                     <h4>Transaction 2</h4>
-                                    <div class="tx-status">READ balance: $1000</div>
+                                    <div class="tx-status">Reading data...</div>
                                 </div>
+                            </div>
+                            <div class="demo-buttons">
+                                <button class="btn-isolation">Run Both Transactions</button>
                             </div>
                         </div>
                     </div>
@@ -223,16 +277,18 @@
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <h3>Durability</h3>
-                        <p>Committed transactions persist despite system failures</p>
+                        <p>Completed transactions survive crashes</p>
                         <button class="btn-demo">Show Demo</button>
                         <div class="demo-content">
                             <div class="durability-demo">
                                 <div class="commit-status">
                                     <div class="status-indicator"></div>
-                                    <span>Transaction Committed</span>
+                                    <span>Transaction saved to log</span>
                                 </div>
-                                <button class="btn-crash">Simulate System Crash</button>
-                                <button class="btn-recover">Recover Data</button>
+                                <div class="demo-buttons">
+                                    <button class="btn-crash">Simulate System Crash</button>
+                                    <button class="btn-recover">Recover Data</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -242,8 +298,8 @@
             <!-- Dirty Read Section -->
             <section id="dirty-read" class="content-section">
                 <div class="section-header">
-                    <h2>Dirty Read Scenario Simulation</h2>
-                    <p>Demonstrating read uncommitted isolation level issues</p>
+                    <h2>Dirty Read Problem</h2>
+                    <p>See what happens when one transaction reads another's uncommitted data</p>
                 </div>
 
                 <div class="dirty-read-container">
@@ -252,21 +308,21 @@
                             <h3>Transaction T1</h3>
                             <div class="tx-operations">
                                 <button class="tx-btn" data-tx="1" data-op="begin">BEGIN</button>
-                                <button class="tx-btn" data-tx="1" data-op="update">UPDATE balance = 500</button>
+                                <button class="tx-btn" data-tx="1" data-op="update">UPDATE balance = ₹500</button>
                                 <button class="tx-btn" data-tx="1" data-op="rollback">ROLLBACK</button>
                             </div>
                             <div class="tx-log" id="txLog1"></div>
                         </div>
 
                         <div class="shared-data">
-                            <h3>Shared Data</h3>
+                            <h3>Shared Account Data</h3>
                             <div class="data-item">
                                 <label>Account Balance:</label>
-                                <span id="sharedBalance">1000</span>
+                                <span id="sharedBalance">₹1,000</span>
                             </div>
                             <div class="data-item">
                                 <label>Status:</label>
-                                <span id="dataStatus">Stable</span>
+                                <span id="dataStatus">Committed</span>
                             </div>
                         </div>
 
@@ -283,19 +339,19 @@
 
                     <div class="explanation-panel">
                         <h4>What is a Dirty Read?</h4>
-                        <p>A dirty read occurs when a transaction reads data that has been modified by another transaction that has not yet been committed.</p>
+                        <p>When Transaction 2 reads data that Transaction 1 changed but didn't save yet. If Transaction 1 fails, Transaction 2 has wrong data.</p>
                         <div class="scenario-steps">
                             <div class="step" data-step="1">
-                                <span>T1 updates balance to 500 (uncommitted)</span>
+                                <span>T1 updates balance to ₹500 (not saved)</span>
                             </div>
                             <div class="step" data-step="2">
-                                <span>T2 reads uncommitted balance of 500</span>
+                                <span>T2 reads ₹500 (wrong data!)</span>
                             </div>
                             <div class="step" data-step="3">
-                                <span>T1 rolls back changes</span>
+                                <span>T1 fails and rolls back to ₹1,000</span>
                             </div>
                             <div class="step" data-step="4">
-                                <span>T2 has inconsistent data (dirty read)</span>
+                                <span>T2 has wrong ₹500 data</span>
                             </div>
                         </div>
                     </div>
@@ -305,13 +361,13 @@
             <!-- Privileges Section -->
             <section id="privileges" class="content-section">
                 <div class="section-header">
-                    <h2>Database Privileges Management</h2>
-                    <p>GRANT and REVOKE operations demonstration</p>
+                    <h2>User Privileges Management</h2>
+                    <p>Practice giving and taking database permissions</p>
                 </div>
 
                 <div class="privileges-container">
                     <div class="users-panel">
-                        <h3>Users & Roles</h3>
+                        <h3>Users</h3>
                         <div class="user-list">
                             <div class="user-card" data-user="admin">
                                 <div class="user-avatar">
@@ -319,7 +375,7 @@
                                 </div>
                                 <div class="user-info">
                                     <h4>Administrator</h4>
-                                    <span class="user-role">Super User</span>
+                                    <span class="user-role">Full Access</span>
                                 </div>
                             </div>
                             <div class="user-card active" data-user="alice">
@@ -328,7 +384,7 @@
                                 </div>
                                 <div class="user-info">
                                     <h4>Alice</h4>
-                                    <span class="user-role">Database User</span>
+                                    <span class="user-role">Regular User</span>
                                 </div>
                             </div>
                             <div class="user-card" data-user="bob">
@@ -337,54 +393,33 @@
                                 </div>
                                 <div class="user-info">
                                     <h4>Bob</h4>
-                                    <span class="user-role">Database User</span>
+                                    <span class="user-role">Regular User</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="privileges-panel">
-                        <h3>Table Privileges</h3>
+                        <h3>Database Permissions</h3>
                         <div class="table-privileges">
                             <div class="table-card">
-                                <h4>accounts</h4>
+                                <h4>accounts table</h4>
                                 <div class="privileges-list">
                                     <label class="privilege-item">
                                         <input type="checkbox" data-priv="SELECT" checked>
-                                        <span>SELECT</span>
+                                        <span>SELECT (read data)</span>
                                     </label>
                                     <label class="privilege-item">
                                         <input type="checkbox" data-priv="INSERT">
-                                        <span>INSERT</span>
+                                        <span>INSERT (add data)</span>
                                     </label>
                                     <label class="privilege-item">
                                         <input type="checkbox" data-priv="UPDATE" checked>
-                                        <span>UPDATE</span>
+                                        <span>UPDATE (change data)</span>
                                     </label>
                                     <label class="privilege-item">
                                         <input type="checkbox" data-priv="DELETE">
-                                        <span>DELETE</span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="table-card">
-                                <h4>transactions</h4>
-                                <div class="privileges-list">
-                                    <label class="privilege-item">
-                                        <input type="checkbox" data-priv="SELECT" checked>
-                                        <span>SELECT</span>
-                                    </label>
-                                    <label class="privilege-item">
-                                        <input type="checkbox" data-priv="INSERT">
-                                        <span>INSERT</span>
-                                    </label>
-                                    <label class="privilege-item">
-                                        <input type="checkbox" data-priv="UPDATE">
-                                        <span>UPDATE</span>
-                                    </label>
-                                    <label class="privilege-item">
-                                        <input type="checkbox" data-priv="DELETE">
-                                        <span>DELETE</span>
+                                        <span>DELETE (remove data)</span>
                                     </label>
                                 </div>
                             </div>
@@ -403,23 +438,23 @@
                                     <i class="fas fa-lock"></i> REVOKE
                                 </button>
                                 <button class="btn-execute" data-action="execute">
-                                    <i class="fas fa-play"></i> Execute
+                                    <i class="fas fa-play"></i> Run Command
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     <div class="access-panel">
-                        <h3>Access Test</h3>
+                        <h3>Test Access</h3>
                         <div class="access-test">
                             <div class="test-query">
                                 <code>SELECT * FROM accounts;</code>
-                                <button class="btn-test" data-query="select">Test Query</button>
+                                <button class="btn-test">Test This Query</button>
                             </div>
                             <div class="test-result">
                                 <div class="result-indicator success">
                                     <i class="fas fa-check"></i>
-                                    <span>Access Granted</span>
+                                    <span>Access Allowed</span>
                                 </div>
                                 <div class="result-indicator error">
                                     <i class="fas fa-times"></i>

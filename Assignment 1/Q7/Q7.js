@@ -83,6 +83,25 @@ function initTheme() {
 }
 
 function setupEventListeners() {
+    // Help Modal
+    const helpButton = document.getElementById('helpButton');
+    const modal = document.getElementById('helpModal');
+    const closeButton = document.querySelector('.close');
+
+    helpButton.addEventListener('click', function() {
+        modal.style.display = 'block';
+    });
+
+    closeButton.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+    
     // Navigation
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
@@ -113,6 +132,10 @@ function setupEventListeners() {
                 content.classList.remove('active');
             });
             
+            document.querySelectorAll('.btn-demo').forEach(btn => {
+                btn.textContent = 'Show Demo';
+            });
+            
             // Toggle current demo
             if (!isActive) {
                 demoContent.classList.add('active');
@@ -135,10 +158,19 @@ function setupEventListeners() {
     document.querySelector('.btn-transfer-fail').addEventListener('click', simulateTransferFailure);
     
     // Constraint Demo
-    document.querySelector('.btn-withdraw').addEventListener('click', function() {
-        const amount = parseInt(this.getAttribute('data-amount'));
-        simulateWithdrawal(amount);
+    document.querySelectorAll('.btn-withdraw').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const amount = parseInt(this.getAttribute('data-amount'));
+            simulateWithdrawal(amount);
+        });
     });
+    
+    // Isolation Demo
+    document.querySelector('.btn-isolation').addEventListener('click', simulateIsolation);
+    
+    // Durability Demo
+    document.querySelector('.btn-crash').addEventListener('click', simulateCrash);
+    document.querySelector('.btn-recover').addEventListener('click', simulateRecovery);
     
     // Dirty Read Transactions
     document.querySelectorAll('.tx-btn').forEach(btn => {
@@ -206,11 +238,11 @@ function commitTransaction() {
     if (!currentTransaction) return;
     
     updateTransactionState('partially-committed');
-    addLogEntry('Final operation executed - Moving to partially committed state');
+    addLogEntry('All operations done - Moving to partially committed state');
     
     setTimeout(() => {
         updateTransactionState('committed');
-        addLogEntry('Transaction committed successfully');
+        addLogEntry('Transaction committed successfully - Changes saved');
         resetTransactionControls();
     }, 1000);
 }
@@ -223,7 +255,7 @@ function rollbackTransaction() {
     
     setTimeout(() => {
         updateTransactionState('aborted');
-        addLogEntry('Transaction aborted and rolled back');
+        addLogEntry('Transaction rolled back - No changes saved');
         resetTransactionControls();
     }, 1000);
 }
@@ -232,11 +264,11 @@ function simulateFailure() {
     if (!currentTransaction) return;
     
     updateTransactionState('failed');
-    addLogEntry('Simulated system failure detected');
+    addLogEntry('💥 System crash detected!');
     
     setTimeout(() => {
         updateTransactionState('aborted');
-        addLogEntry('Automatic rollback completed');
+        addLogEntry('Automatic rollback completed after crash');
         resetTransactionControls();
     }, 1500);
 }
@@ -302,42 +334,64 @@ function simulateBankTransfer(amount) {
     const accountA = document.querySelector('#accountA .balance');
     const accountB = document.querySelector('#accountB .balance');
     
-    const balanceA = parseInt(accountA.textContent.replace('$', ''));
-    const balanceB = parseInt(accountB.textContent.replace('$', ''));
+    const balanceA = parseInt(accountA.textContent.replace('₹', '').replace(',', ''));
+    const balanceB = parseInt(accountB.textContent.replace('₹', '').replace(',', ''));
     
     if (balanceA >= amount) {
         // Atomic operation - both updates happen or none
-        accountA.textContent = '$' + (balanceA - amount);
-        accountB.textContent = '$' + (balanceB + amount);
+        accountA.textContent = '₹' + (balanceA - amount).toLocaleString();
+        accountB.textContent = '₹' + (balanceB + amount).toLocaleString();
         
-        addLogEntry(`Atomic transfer: $${amount} from Account A to Account B`);
+        addLogEntry(`✅ Atomic transfer: ₹${amount.toLocaleString()} from Account A to Account B`);
     } else {
-        addLogEntry('Transfer failed: Insufficient funds');
+        addLogEntry('❌ Transfer failed: Not enough money in Account A');
     }
 }
 
 function simulateTransferFailure() {
-    addLogEntry('Simulating system failure during transfer...');
+    addLogEntry('💥 Simulating system crash during transfer...');
     
     setTimeout(() => {
-        addLogEntry('Atomicity maintained: No partial updates applied');
+        addLogEntry('✅ Atomicity maintained: No partial updates - both accounts unchanged');
         // Reset to original state (simulating rollback)
-        document.querySelector('#accountA .balance').textContent = '$1000';
-        document.querySelector('#accountB .balance').textContent = '$500';
+        document.querySelector('#accountA .balance').textContent = '₹10,000';
+        document.querySelector('#accountB .balance').textContent = '₹5,000';
     }, 1000);
 }
 
 function simulateWithdrawal(amount) {
     const balanceDisplay = document.querySelector('.balance-display');
-    let balance = parseInt(balanceDisplay.textContent.replace('$', ''));
+    let balance = parseInt(balanceDisplay.textContent.replace('₹', '').replace(',', ''));
     
     if (balance - amount >= 0) {
         balance -= amount;
-        balanceDisplay.textContent = '$' + balance;
-        addLogEntry(`Withdrawal successful: $${amount}. New balance: $${balance}`);
+        balanceDisplay.textContent = '₹' + balance.toLocaleString();
+        addLogEntry(`✅ Withdrawal successful: ₹${amount.toLocaleString()}. New balance: ₹${balance.toLocaleString()}`);
     } else {
-        addLogEntry('Withdrawal failed: Consistency constraint violated - Balance cannot be negative');
+        addLogEntry(`❌ Withdrawal failed: Cannot have negative balance. You tried to withdraw ₹${amount.toLocaleString()} but only have ₹${balance.toLocaleString()}`);
     }
+}
+
+function simulateIsolation() {
+    const tx1Status = document.querySelector('#tx1 .tx-status');
+    const tx2Status = document.querySelector('#tx2 .tx-status');
+    
+    tx1Status.textContent = 'Reading: Balance = ₹10,000';
+    tx2Status.textContent = 'Reading: Balance = ₹10,000';
+    
+    addLogEntry('✅ Isolation: Both transactions read consistent data without interfering');
+}
+
+function simulateCrash() {
+    const statusIndicator = document.querySelector('.status-indicator');
+    statusIndicator.style.background = '#ef4444';
+    addLogEntry('💥 System crashed!');
+}
+
+function simulateRecovery() {
+    const statusIndicator = document.querySelector('.status-indicator');
+    statusIndicator.style.background = '#10b981';
+    addLogEntry('✅ Durability: Data recovered from transaction log after crash');
 }
 
 // Dirty Read Simulation
@@ -346,6 +400,9 @@ function handleTransactionOperation(txId, operation) {
     const sharedBalance = document.getElementById('sharedBalance');
     const dataStatus = document.getElementById('dataStatus');
     
+    // Reset steps
+    document.querySelectorAll('.step').forEach(step => step.classList.remove('active'));
+    
     switch(operation) {
         case 'begin':
             addTransactionLog(txLog, `Transaction ${txId} started`);
@@ -353,10 +410,10 @@ function handleTransactionOperation(txId, operation) {
             
         case 'update':
             if (txId === '1') {
-                sharedBalance.textContent = '500';
+                sharedBalance.textContent = '₹500';
                 dataStatus.textContent = 'Uncommitted';
                 dataStatus.style.color = '#f59e0b';
-                addTransactionLog(txLog, 'Updated balance to 500 (UNCOMMITTED)');
+                addTransactionLog(txLog, 'Updated balance to ₹500 (NOT SAVED YET)');
                 
                 // Activate step 1
                 document.querySelector('[data-step="1"]').classList.add('active');
@@ -366,7 +423,7 @@ function handleTransactionOperation(txId, operation) {
         case 'read':
             if (txId === '2') {
                 const balance = sharedBalance.textContent;
-                addTransactionLog(txLog, `Read balance: ${balance} (DIRTY READ!)`);
+                addTransactionLog(txLog, `Read balance: ${balance} (DIRTY READ - wrong data!)`);
                 
                 // Activate step 2
                 document.querySelector('[data-step="2"]').classList.add('active');
@@ -375,10 +432,10 @@ function handleTransactionOperation(txId, operation) {
             
         case 'rollback':
             if (txId === '1') {
-                sharedBalance.textContent = '1000';
-                dataStatus.textContent = 'Stable';
+                sharedBalance.textContent = '₹1,000';
+                dataStatus.textContent = 'Committed';
                 dataStatus.style.color = '#10b981';
-                addTransactionLog(txLog, 'Rollback - balance restored to 1000');
+                addTransactionLog(txLog, 'Rollback - balance restored to ₹1,000');
                 
                 // Activate step 3
                 document.querySelector('[data-step="3"]').classList.add('active');
@@ -386,7 +443,7 @@ function handleTransactionOperation(txId, operation) {
                 // Show the consequence
                 setTimeout(() => {
                     const tx2Log = document.getElementById('txLog2');
-                    addTransactionLog(tx2Log, 'ERROR: Working with inconsistent data!');
+                    addTransactionLog(tx2Log, '❌ ERROR: Working with wrong ₹500 data!');
                     document.querySelector('[data-step="4"]').classList.add('active');
                 }, 500);
             }
@@ -425,17 +482,10 @@ function updatePrivilegeUI() {
     const privileges = userPrivileges[currentUser];
     
     // Update accounts table privileges
-    const accountPrivileges = document.querySelectorAll('.table-card:first-child .privilege-item input');
+    const accountPrivileges = document.querySelectorAll('.table-card .privilege-item input');
     accountPrivileges.forEach(checkbox => {
         const priv = checkbox.getAttribute('data-priv');
         checkbox.checked = privileges.accounts.includes(priv);
-    });
-    
-    // Update transactions table privileges
-    const transactionPrivileges = document.querySelectorAll('.table-card:last-child .privilege-item input');
-    transactionPrivileges.forEach(checkbox => {
-        const priv = checkbox.getAttribute('data-priv');
-        checkbox.checked = privileges.transactions.includes(priv);
     });
 }
 
@@ -458,20 +508,20 @@ function handlePrivilegeAction(action) {
     switch(action) {
         case 'grant':
             userPrivileges[currentUser].accounts = [...new Set([...userPrivileges[currentUser].accounts, ...selectedPrivileges])];
-            addLogEntry(`Granted ${selectedPrivileges.join(', ')} on accounts to ${currentUser}`);
+            addLogEntry(`✅ Granted ${selectedPrivileges.join(', ')} on accounts to ${currentUser}`);
             break;
             
         case 'revoke':
             userPrivileges[currentUser].accounts = userPrivileges[currentUser].accounts.filter(
                 priv => !selectedPrivileges.includes(priv)
             );
-            addLogEntry(`Revoked ${selectedPrivileges.join(', ')} on accounts from ${currentUser}`);
+            addLogEntry(`❌ Revoked ${selectedPrivileges.join(', ')} on accounts from ${currentUser}`);
             break;
             
         case 'execute':
             // Simulate SQL execution
             const sqlCommand = document.getElementById('sqlCommand').textContent;
-            addLogEntry(`Executed: ${sqlCommand}`);
+            addLogEntry(`⚡ Executed: ${sqlCommand}`);
             break;
     }
     
@@ -491,8 +541,10 @@ function testAccess() {
     
     if (hasSelectPrivilege) {
         successIndicator.classList.add('active');
+        addLogEntry(`✅ ${currentUser} can read from accounts table`);
     } else {
         errorIndicator.classList.add('active');
+        addLogEntry(`❌ ${currentUser} cannot read from accounts table`);
     }
 }
 
@@ -505,6 +557,6 @@ function updateDateTime() {
 
 // Add some initial log entries for demonstration
 setTimeout(() => {
-    addLogEntry('System initialized successfully');
-    addLogEntry('QuantumTX Simulator ready');
+    addLogEntry('🚀 Transaction Simulator started');
+    addLogEntry('Click "How to Use" for instructions');
 }, 1000);

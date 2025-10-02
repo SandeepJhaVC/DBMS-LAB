@@ -28,9 +28,9 @@
                     <i class="fas fa-moon"></i>
                     <span>Theme</span>
                 </button>
-                <button id="helpBtn" class="control-btn glass">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Help</span>
+                <button id="howToUseBtn" class="control-btn glass">
+                    <i class="fas fa-info-circle"></i>
+                    <span>How to Use</span>
                 </button>
             </div>
         </div>
@@ -83,47 +83,12 @@
                         </div>
                         <span>Derived</span>
                     </button>
-                </div>
-            </section>
-
-            <!-- Relationships Section -->
-            <section class="tool-section">
-                <div class="section-header">
-                    <i class="fas fa-link"></i>
-                    <h3>Relationships</h3>
-                </div>
-                <div class="tool-grid">
                     <button class="tool-btn" data-tool="relationship">
                         <div class="tool-icon">
                             <i class="fas fa-arrows-alt-h"></i>
                         </div>
                         <span>Relationship</span>
                     </button>
-                    <button class="tool-btn" data-tool="isa-relationship">
-                        <div class="tool-icon">
-                            <i class="fas fa-sitemap"></i>
-                        </div>
-                        <span>ISA Relationship</span>
-                    </button>
-                </div>
-                
-                <div class="properties-panel">
-                    <div class="property-group">
-                        <label>Cardinality:</label>
-                        <select id="cardinality" class="glass">
-                            <option value="1:1">1:1</option>
-                            <option value="1:N">1:N</option>
-                            <option value="N:1">N:1</option>
-                            <option value="M:N">M:N</option>
-                        </select>
-                    </div>
-                    <div class="property-group">
-                        <label>Participation:</label>
-                        <select id="participation" class="glass">
-                            <option value="partial">Partial</option>
-                            <option value="total">Total</option>
-                        </select>
-                    </div>
                 </div>
             </section>
 
@@ -284,6 +249,35 @@
     </aside>
 
     <!-- Modals -->
+    <!-- How to Use Modal -->
+    <div class="modal" id="howToUseModal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>How to Use ER/EER Diagram Builder Pro</h3>
+                </div>
+                <button class="close-btn glass" id="closeHowToUseModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ol style="padding-left: 1.2em;">
+                    <li><strong>Select a Tool:</strong> Use the toolbar on the left to select Entity, Weak Entity, Attribute, Composite, Multivalued, or Derived Attribute.</li>
+                    <li><strong>Add Elements:</strong> Click on the canvas to add the selected element. For attributes, select an entity first.</li>
+                    <li><strong>Edit Properties:</strong> Double-click any element to edit its properties, name, or attributes.</li>
+                    <li><strong>Connect Entities:</strong> Use the connection dots to create relationships between entities (if enabled).</li>
+                    <li><strong>Move Elements:</strong> Drag elements to reposition them on the canvas.</li>
+                    <li><strong>Actions:</strong> Use the sidebar buttons to clear the canvas, save/load diagrams, export images, or generate the relational schema.</li>
+                    <li><strong>Theme & Grid:</strong> Toggle between light/dark mode and show/hide the grid for better visibility.</li>
+                    <li><strong>Statistics:</strong> View real-time counts of entities, relationships, and connections in the sidebar.</li>
+                    <li><strong>Schema Panel:</strong> Click 'Generate Schema' to view the SQL schema for your diagram. You can copy or close the panel.</li>
+                </ol>
+                <p style="margin-top:1em; color:#6366f1;"><strong>Tip:</strong> Right-click elements for quick actions like edit, delete, or view properties.</p>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="entityModal">
         <div class="modal-content glass">
             <div class="modal-header">
@@ -312,6 +306,59 @@
             <div class="modal-footer">
                 <button class="btn secondary glass" id="cancelEntityBtn">Cancel</button>
                 <button class="btn primary" id="saveEntityBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relationship Modal -->
+    <div class="modal" id="relationshipModal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <div class="modal-title">
+                    <i class="fas fa-link"></i>
+                    <h3>Relationship Properties</h3>
+                </div>
+                <button class="close-btn glass" id="closeRelationshipModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="relationshipName">Relationship Name</label>
+                    <input type="text" id="relationshipName" class="glass" placeholder="e.g., Enrolls, Teaches">
+                </div>
+                <div class="form-group">
+                    <label for="relationshipType">Relationship Type</label>
+                    <select id="relationshipType" class="glass">
+                        <option value="regular">Regular</option>
+                        <option value="identifying">Identifying</option>
+                        <option value="isa">ISA (Inheritance)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="relationshipEntities">Entities Involved</label>
+                    <input type="text" id="relationshipEntities" class="glass" placeholder="e.g., Student, Course, Teacher (comma separated)">
+                </div>
+                <div class="form-group">
+                    <label for="relationshipCardinality">Cardinality</label>
+                    <select id="relationshipCardinality" class="glass">
+                        <option value="1:1">1:1</option>
+                        <option value="1:N">1:N</option>
+                        <option value="N:1">N:1</option>
+                        <option value="M:N">M:N</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="relationshipParticipation">Participation</label>
+                    <select id="relationshipParticipation" class="glass">
+                        <option value="partial">Partial</option>
+                        <option value="total">Total</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn secondary glass" id="cancelRelationshipBtn">Cancel</button>
+                <button class="btn primary" id="saveRelationshipBtn">Save Changes</button>
             </div>
         </div>
     </div>
@@ -450,5 +497,27 @@
     </footer>
 
     <script src="Q3.js"></script>
+    <script>
+    // How to Use Modal functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        var howToUseBtn = document.getElementById('howToUseBtn');
+        var howToUseModal = document.getElementById('howToUseModal');
+        var closeHowToUseModal = document.getElementById('closeHowToUseModal');
+        if (howToUseBtn && howToUseModal && closeHowToUseModal) {
+            howToUseBtn.addEventListener('click', function() {
+                howToUseModal.classList.add('open');
+            });
+            closeHowToUseModal.addEventListener('click', function() {
+                howToUseModal.classList.remove('open');
+            });
+            // Optional: close modal on outside click
+            howToUseModal.addEventListener('click', function(e) {
+                if (e.target === howToUseModal) {
+                    howToUseModal.classList.remove('open');
+                }
+            });
+        }
+    });
+    </script>
 </body>
 </html>

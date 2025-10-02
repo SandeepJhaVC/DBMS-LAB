@@ -146,7 +146,7 @@ class ERDiagramBuilder {
       .addEventListener("click", () => this.closeRelationshipModal());
     document
       .getElementById("saveRelationshipBtn")
-      .addEventListener("click", () => this.saveRelationship());
+      .addEventListener("click", () => this.saveRelationshipModal());
     document
       .getElementById("cancelRelationshipBtn")
       .addEventListener("click", () => this.closeRelationshipModal());
@@ -376,9 +376,25 @@ class ERDiagramBuilder {
       case "weak-entity":
         this.createWeakEntity(x, y);
         break;
-      case "relationship":
-        this.createRelationship(x, y);
+      case "relationship": {
+        // Create a blank relationship object and open the modal for user input
+        const relationshipId = `relationship-${Date.now()}`;
+        const relationship = {
+          id: relationshipId,
+          name: "",
+          type: "regular",
+          x: x,
+          y: y,
+          cardinality: "1:1",
+          participation: "partial",
+          entities: []
+        };
+        this.relationships.push(relationship);
+        this.renderRelationship(relationship);
+        this.updateStats();
+        this.openRelationshipModal(relationship);
         break;
+      }
       case "isa-relationship":
         this.createISARelationship(x, y);
         break;
@@ -475,6 +491,14 @@ class ERDiagramBuilder {
     const relationshipId = `relationship-${Date.now()}`;
     const cardinality = document.getElementById("cardinality").value;
     const participation = document.getElementById("participation").value;
+    let entities = [];
+    if (data.entities) {
+      if (Array.isArray(data.entities)) {
+        entities = data.entities;
+      } else if (typeof data.entities === "string") {
+        entities = data.entities.split(',').map(e => e.trim());
+      }
+    }
 
     const relationship = {
       id: relationshipId,
@@ -484,6 +508,7 @@ class ERDiagramBuilder {
       y: y,
       cardinality: data.cardinality || cardinality,
       participation: data.participation || participation,
+      entities: entities
     };
 
     this.relationships.push(relationship);
@@ -865,17 +890,22 @@ class ERDiagramBuilder {
     this.showNotification("Entity saved successfully", "success");
   }
 
-  saveRelationship() {
+  saveRelationshipModal() {
     const name = document.getElementById("relationshipName").value.trim();
     if (!name) {
       this.showNotification("Please enter a relationship name", "error");
       return;
     }
-
     const type = document.getElementById("relationshipType").value;
+    const entitiesStr = document.getElementById("relationshipEntities").value.trim();
+    const cardinality = document.getElementById("relationshipCardinality").value;
+    const participation = document.getElementById("relationshipParticipation").value;
 
     this.currentRelationship.name = name;
     this.currentRelationship.type = type;
+    this.currentRelationship.cardinality = cardinality;
+    this.currentRelationship.participation = participation;
+    this.currentRelationship.entities = entitiesStr ? entitiesStr.split(',').map(e => e.trim()) : [];
 
     const relationshipEl = document.getElementById(this.currentRelationship.id);
     if (relationshipEl) {
