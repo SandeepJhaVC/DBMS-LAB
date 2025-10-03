@@ -1,17 +1,13 @@
 // landing.js
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize theme
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    setTheme(savedTheme);
-    
-    // Tool file paths
+    // Tool file paths (use relative paths)
     const toolPaths = {
-        q1: '/Users/divyansh/Desktop/CSE/Sem 3/DBMS/DBMS-LAB/Assignment 1/Q1/Q1.html',
-        q3: '/Users/divyansh/Desktop/CSE/Sem 3/DBMS/DBMS-LAB/Assignment 1/Q3/Q3.html',
-        q5: '/Users/divyansh/Desktop/CSE/Sem 3/DBMS/DBMS-LAB/Assignment 1/Q5/Q5.html',
-        q7: '/Users/divyansh/Desktop/CSE/Sem 3/DBMS/DBMS-LAB/Assignment 1/Q7/Q7.html'
+        q1: 'Q1/Q1.html',
+        q3: 'Q3/Q3.html',
+        q5: 'Q5/Q5.html',
+        q7: 'Q7/Q7.html'
     };
-    
+
     // DOM Elements
     const themeToggle = document.getElementById('themeToggle');
     const helpBtn = document.getElementById('helpBtn');
@@ -21,33 +17,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const toolLaunchBtns = document.querySelectorAll('.tool-launch-btn');
     const customCursor = document.querySelector('.custom-cursor');
     const cursorFollower = document.querySelector('.cursor-follower');
-    
+
+    // ✅ Initialize theme AFTER DOM elements are declared
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    setTheme(savedTheme);
+
     // Custom Cursor
     document.addEventListener('mousemove', (e) => {
         customCursor.style.left = e.clientX + 'px';
         customCursor.style.top = e.clientY + 'px';
-        
+
         setTimeout(() => {
             cursorFollower.style.left = e.clientX + 'px';
             cursorFollower.style.top = e.clientY + 'px';
         }, 100);
     });
-    
+
     // Interactive elements cursor effect
     const interactiveElements = document.querySelectorAll('button, .tool-card, .member-card, .theme-toggle, .help-btn');
-    
+
     interactiveElements.forEach(element => {
         element.addEventListener('mouseenter', () => {
             customCursor.style.transform = 'scale(1.5)';
             cursorFollower.style.transform = 'scale(2)';
         });
-        
+
         element.addEventListener('mouseleave', () => {
             customCursor.style.transform = 'scale(1)';
             cursorFollower.style.transform = 'scale(1)';
         });
     });
-    
+
     // Theme Toggle
     themeToggle.addEventListener('click', () => {
         const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
@@ -55,25 +55,25 @@ document.addEventListener('DOMContentLoaded', function() {
         setTheme(newTheme);
         showNotification(`Switched to ${newTheme === 'dark' ? 'Cosmic Mode' : 'Light Mode'}`, 'info');
     });
-    
+
     // Help Modal
     helpBtn.addEventListener('click', () => {
         helpModal.classList.add('active');
         document.body.style.overflow = 'hidden';
     });
-    
+
     closeHelp.addEventListener('click', () => {
         helpModal.classList.remove('active');
         document.body.style.overflow = 'auto';
     });
-    
+
     helpModal.addEventListener('click', (e) => {
         if (e.target === helpModal) {
             helpModal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
     });
-    
+
     // Tool Cards Interaction
     toolCards.forEach(card => {
         card.addEventListener('click', (e) => {
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     toolLaunchBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -91,22 +91,19 @@ document.addEventListener('DOMContentLoaded', function() {
             launchTool(tool);
         });
     });
-    
+
     // Keyboard Shortcuts
     document.addEventListener('keydown', (e) => {
-        // Ctrl + T to toggle theme
         if (e.ctrlKey && e.key === 't') {
             e.preventDefault();
             themeToggle.click();
         }
-        
-        // Ctrl + ? to open help
+
         if (e.ctrlKey && e.key === '?') {
             e.preventDefault();
             helpBtn.click();
         }
-        
-        // Ctrl + 1-4 to launch tools
+
         if (e.ctrlKey && e.key >= '1' && e.key <= '4') {
             e.preventDefault();
             const tools = ['q1', 'q3', 'q5', 'q7'];
@@ -115,20 +112,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 launchTool(tools[toolIndex]);
             }
         }
-        
-        // Escape to close modals
+
         if (e.key === 'Escape') {
             helpModal.classList.remove('active');
             document.body.style.overflow = 'auto';
         }
     });
-    
+
     // Scroll Animation
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -137,24 +133,22 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }, observerOptions);
-    
-    // Observe elements for scroll animation
+
     document.querySelectorAll('.tool-card, .member-card, .hero-content, .group-content').forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
         observer.observe(el);
     });
-    
+
     // Function to set theme
     function setTheme(theme) {
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
-        
-        // Update toggle button text
+
         const themeText = themeToggle.querySelector('.theme-text');
         const themeIcon = themeToggle.querySelector('.theme-icon');
-        
+
         if (theme === 'dark') {
             themeText.textContent = 'Cosmic Mode';
             themeIcon.textContent = '🌙';
@@ -163,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function() {
             themeIcon.textContent = '☀️';
         }
     }
-    
+
     // Function to launch tools
     function launchTool(tool) {
         const toolNames = {
@@ -172,47 +166,41 @@ document.addEventListener('DOMContentLoaded', function() {
             q5: 'Relational Algebra Visualizer',
             q7: 'Transaction Management Simulator'
         };
-        
+
         showNotification(`Launching ${toolNames[tool]}...`, 'info');
-        
-        // Check if the file exists and open it
+
         if (toolPaths[tool]) {
-            // For local file system, we need to use file:// protocol
             const filePath = toolPaths[tool];
-            
-            // Create a link element to test if file exists
             const link = document.createElement('a');
-            link.href = 'file://' + filePath;
+            link.href = filePath;
             link.target = '_blank';
-            
-            // Try to open the file
+
             try {
                 link.click();
                 showNotification(`${toolNames[tool]} launched successfully!`, 'success');
             } catch (error) {
                 console.error('Error opening tool:', error);
-                showNotification(`Could not open ${toolNames[tool]}. File may not exist at the specified path.`, 'error');
+                showNotification(`Could not open ${toolNames[tool]}. File may not exist.`, 'error');
             }
         } else {
             showNotification(`Tool path not configured for ${toolNames[tool]}`, 'error');
         }
-        
-        // Highlight the selected tool
+
         highlightTool(tool);
     }
-    
-    // Function to highlight selected tool
+
+    // Highlight selected tool
     function highlightTool(tool) {
         toolCards.forEach(card => {
             card.style.transform = 'scale(0.95)';
             card.style.opacity = '0.7';
         });
-        
+
         const selectedCard = document.querySelector(`[data-tool="${tool}"]`);
         selectedCard.style.transform = 'scale(1.05)';
         selectedCard.style.opacity = '1';
         selectedCard.style.boxShadow = '0 0 30px rgba(99, 102, 241, 0.5)';
-        
+
         setTimeout(() => {
             toolCards.forEach(card => {
                 card.style.transform = '';
@@ -221,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }, 2000);
     }
-    
+
     // Notification system
     function showNotification(message, type = 'info') {
         const container = document.getElementById('notificationContainer');
@@ -232,15 +220,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p>${message}</p>
             </div>
         `;
-        
+
         container.appendChild(notification);
-        
-        // Trigger animation
+
         setTimeout(() => {
             notification.classList.add('show');
         }, 10);
-        
-        // Remove after delay
+
         setTimeout(() => {
             notification.classList.remove('show');
             setTimeout(() => {
@@ -250,44 +236,44 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 300);
         }, 3000);
     }
-    
-    // Add some dynamic effects to the hero section
+
+    // Hero section tilt effect
     const heroContent = document.querySelector('.hero-content');
-    
+
     heroContent.addEventListener('mousemove', (e) => {
         const { left, top, width, height } = heroContent.getBoundingClientRect();
         const x = (e.clientX - left) / width - 0.5;
         const y = (e.clientY - top) / height - 0.5;
-        
+
         heroContent.style.transform = `perspective(1000px) rotateY(${x * 5}deg) rotateX(${y * -5}deg)`;
     });
-    
+
     heroContent.addEventListener('mouseleave', () => {
         heroContent.style.transform = 'perspective(1000px) rotateY(0) rotateX(0)';
     });
-    
-    // Initialize with a welcome message
+
+    // Welcome message
     setTimeout(() => {
         showNotification('Welcome to DBMS Learning Suite!', 'success');
     }, 1000);
-    
-    // Add some particles to the background on click
+
+    // Particles on click
     document.addEventListener('click', (e) => {
         createParticle(e.clientX, e.clientY);
     });
-    
+
     function createParticle(x, y) {
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.left = x + 'px';
         particle.style.top = y + 'px';
         document.body.appendChild(particle);
-        
+
         setTimeout(() => {
             particle.remove();
         }, 1000);
     }
-    
+
     // Add CSS for particles
     const style = document.createElement('style');
     style.textContent = `
@@ -301,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
             z-index: 10000;
             animation: particleFloat 1s ease-out forwards;
         }
-        
+
         @keyframes particleFloat {
             0% {
                 transform: translate(0, 0) scale(1);
